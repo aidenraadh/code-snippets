@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+        <title>Page Loading Screen</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="css/page-loading-screen.css">
+        <style type="text/css">
+        p{margin: 2rem 0;}
+        code{display: block; padding-left: 5rem; margin: 1rem 0;}
+        </style>
+</head>
+<body>
+  <div class="page-loader-wrapper">
+    <span class="page-loader"><span class="page-loader-inner"></span></span>
+  </div>  
+  <p>
+    This is a page loading screen.<br>
+    To use this, create an element like down below, and put it right inside &lt;body class="page-loader-wrapper"&gt; element.
+    <code>
+        &lt;div class="page-loader-wrapper"&gt;<br>
+        &lt;span class="page-loader"&gt;&lt;span class="page-loader-inner"&gt;&lt;/span&gt;&lt;/span&gt;<br>
+        &lt;/div&gt;
+    </code>
+  </p>
+
+<p>
+  The CSS and JS code is down below.<br>
+  <a href="css/page-loading-screen.css">CSS code</a><br>
+  <a href="js/page-loading-screen.js">JS code</a><br>
+  NOTE: to see the full effect, open developer tools, disable the automatic cache, set the throttling to slow 3G, then reload the page.
+</p>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/page-loading-screen.js"></script>
+</body>
+</html>

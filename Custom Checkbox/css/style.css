@@ -1,0 +1,52 @@
+.container {display: block;
+  position: relative;
+  padding-left: 35px; /*changeable -- give space between custom checkbox and the text beside it*/
+  cursor: pointer;
+  font-size: 22px; /* changeable -- font size of text beside checkbox */
+  width: 100%;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  opacity: 0; /* hide the the default checkbox without using display: none; */
+  cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  right: 0; left: 0; /* changeable -- adjust the custom checkbox position with the text beside it */
+  height: 25px; width: 25px; /* changeable -- dimension of custom checkbox */
+  background-color: #eee; /* changeable -- background color of custom checkbox */
+}
+
+/* Style the checkmark/indicator */
+/* the checkmark is made by the span element's left and bottom border, the the span element is rotated 45 degree to appear properly*/
+
+.checkmark:after {
+  content: "";
+  display: none; /* hide the checkmark if checkbox is not checked */
+  position: absolute;
+  left: 9px; top: 5px; /* changealbe -- adjust the position of checkmark againts checkbox */
+  width: 5px; height: 10px; /* changealbe -- the dimension of checkmark */
+  border-style: solid; 
+  border-color: white; /* changealbe -- change the checkmark color */
+  border-width: 0 3px 3px 0; /* changealbe -- the boldness of checkmark */
+  transform: rotate(45deg); /* changealbe -- rotate the checkmark to appear properly */
+}
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc; /* changeable -- change background color of custom checkbox when it's label element is hovered */
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3; /* changeable -- change background color of custom checkbox is checked */
+}
+
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+

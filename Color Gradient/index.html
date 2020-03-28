@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Training|index.html</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<header>
+	<h2 style="position: fixed; z-index: 2; top: -1%; left: 42%;">Color Gradient</h2>
+	<nav class="navFixedLeft">
+		<div class="container-fluid">
+			<div class="openLinksBtn">
+				<button type="button">
+					<span class="glyphicon glyphicon-menu-hamburger"></span>
+				</button>
+			</div>
+			<div class="navLinks">
+				<div class="closeLinksBtn">
+					<button type="button">&times;</button>
+				</div>
+				<div>
+					<h3>Color Hue</h3>
+					<button class="hueBtn showAll selectedHue">Show All</button>
+					<button class="hueBtn manyHue">Many Hue</button>
+					<button class="hueBtn redHue">Red Hue</button>
+					<button class="hueBtn greenHue">Green Hue</button>
+					<button class="hueBtn blueHue">Blue Hue</button>
+					<button class="hueBtn cyanHue">Cyan Hue</button>
+					<button class="hueBtn yellowHue">Yellow Hue</button>
+					<button class="hueBtn magentaHue">Magenta Hue</button>
+				</div>
+				<div>
+					<h3>Color Purity</h3>
+					<button class="purityBtn showAll selectedPurity" >Show All</button>
+					<button class="purityBtn pure"  >Pure</button>
+					<button class="purityBtn toned"  >Toned</button>
+					<button class="purityBtn tinted"  >Tinted</button>
+					<button class="purityBtn shaded"  >Shaded</button>
+				</div>
+			</div>
+		</div>
+	</nav>
+</header>
+	
+
+<section id="canvasContainer" class="showCanvas sectionPosition">
+	<div class="container-fluid">
+		<div class="canvas blueHue pure">linear-gradient(105deg, #006ada 20%, #004896 100%)</div>
+		<div class="canvas yellowHue pure">linear-gradient(105deg, #ffba00 20%, #ff9000 100%)</div>
+		<div class="canvas greenHue pure">linear-gradient(105deg, #61c7ac 20%, #009D73 100%)</div>
+		<div class="canvas cyanHue pure">linear-gradient(141.5deg, #0066ac, #33deff 300%)</div>
+		<div class="canvas manyHue pure">linear-gradient(-225deg, #69EACB 0%, #EACCF8 48%, #6654F1 100%)</div>
+		<div class="canvas manyHue pure">linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%)</div>
+		<div class="canvas magentaHue pure">linear-gradient(-225deg, #3D4E81 0%, #5753C9 48%, #6E7FF3 100%)</div>
+		<div class="canvas magentaHue pure">linear-gradient(-225deg, #FF3CAC 0%, #562B7C 52%, #2B86C5 100%)</div>
+		<div class="canvas magentaHue pure">linear-gradient(-225deg, #FF057C 0%, #8D0B93 50%, #321575 100%)</div>
+		<div class="canvas manyHue pure">linear-gradient(-225deg, #FF057C 0%, #7C64D5 48%, #4CC3FF 100%)</div>
+		<div class="canvas magentaHue pure">linear-gradient(-225deg, #65379B 0%, #886AEA 53%, #6457C6 100%)</div>
+		<div class="canvas magentaHue pure">linear-gradient(-225deg, #A445B2 0%, #D41872 52%, #FF0066 100%)</div>
+		<div class="canvas magentaHue pure">linear-gradient(-225deg, #7742B2 0%, #F180FF 52%, #FD8BD9 100%)</div>
+		<div class="canvas cyanHue pure">linear-gradient(-225deg, #D4FFEC 0%, #57F2CC 48%, #4596FB 100%)</div>
+		<div class="canvas cyanHue pure">linear-gradient(-225deg, #9EFBD3 0%, #57E9F2 48%, #45D4FB 100%)</div>
+		<div class="canvas cyanHue pure">linear-gradient(-225deg, #473B7B 0%, #3584A7 51%, #30D2BE 100%)</div>
+		<div class="canvas cyanHue toned">linear-gradient(-225deg, #7085B6 0%, #87A7D9 50%, #DEF3F8 100%)</div>
+		<div class="canvas cyanHue pure">linear-gradient(-225deg, #77FFD2 0%, #6297DB 48%, #1EECFF 100%)</div>
+		<div class="canvas magentaHue pure">linear-gradient(-225deg, #AC32E4 0%, #7918F2 48%, #4801FF 100%)</div>
+		<div class="canvas cyanHue toned">linear-gradient(-225deg, #7DE2FC 0%, #B9B6E5 100%)</div>
+		<div class="canvas cyanHue toned">linear-gradient(-225deg, #CBBACC 0%, #2580B3 100%)</div>
+		<div class="canvas cyanHue pure">linear-gradient(-225deg, #B7F8DB 0%, #50A7C2 100%)</div>
+		<div class="canvas magentaHue pure">linear-gradient(-225deg, #B6CEE8 0%, #F578DC 100%)</div>
+		<div class="canvas cyanHue tinted">linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%)</div>
+		<div class="canvas magentaHue tinted">linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%)</div>
+		<div class="canvas magentaHue pure">linear-gradient(-225deg, #5271C4 0%, #B19FFF 48%, #ECA1FE 100%)</div>
+		<div class="canvas redHue pure">linear-gradient(-225deg, #FFE29F 0%, #FFA99F 48%, #FF719A 100%)</div>
+		<div class="canvas cyanHue pure">linear-gradient(-225deg, #22E1FF 0%, #1D8FE1 48%, #625EB1 100%)</div>
+		<div class="canvas greenHue pure">linear-gradient(-225deg, #DFFFCD 0%, #90F9C4 48%, #39F3BB 100%)</div>
+		<div class="canvas cyanHue pure">linear-gradient(-225deg, #5D9FFF 0%, #B8DCFF 48%, #6BBBFF 100%)</div>
+		<div class="canvas magentaHue pure">linear-gradient(-225deg, #A8BFFF 0%, #884D80 100%)</div>
+		<div class="canvas greenHue pure">linear-gradient(-225deg, #20E2D7 0%, #F9FEA5 100%);</div>
+		<div class="canvas cyanHue magentaHue pure">linear-gradient(-225deg, #2CD8D5 0%, #C5C1FF 56%, #FFBAC3 100%)</div>
+		<div class="canvas blueHue magentaHue pure">linear-gradient(-225deg, #2CD8D5 0%, #6B8DD6 48%, #8E37D7 100%)</div>
+		<div class="canvas yellowHue pure">linear-gradient(to right, #C1C161 0%, #D4D4B1 100%)</div>
+		<div class="canvas magentaHue pure">linear-gradient(to right, #EC77AB 0%, #7873F5 100%)</div>
+		<div class="canvas blueHue cyanHue pure">linear-gradient(to top, #007ADF 0%, #00ECBC 100%)</div>
+		<div class="canvas toned">linear-gradient(to right, #D7D2CC 0%, #304352 100%)</div>
+		<div class="canvas yellowHue pure">linear-gradient(to top, #E14FAD 0%, #F9D423 100%)</div>
+		<div class="canvas magentaHue pure">linear-gradient(to top, #B224EF 0%, #7579FF 100%)</div>
+		<div class="canvas blueHue pure">linear-gradient(60deg, #3D3393 0%, #2B76B9 37%, #2CACD1 65%, #35EB93 100%)</div>
+		<div class="canvas magentaHue pure">linear-gradient(to top, #DF89B5 0%, #BFD9FE 100%)</div>
+		<div class="canvas magentaHue pure">linear-gradient(to right, #ED6EA0 0%, #EC8C69 100%)</div>
+		<div class="canvas cyanHue pure">linear-gradient(to right, #0ACFFE 0%, #495AFF 100%)</div>
+		<div class="canvas toned">linear-gradient(-20deg, #616161 0%, #9BC5C3 100%)</div>
+		<div class="canvas toned">radial-gradient(at top center, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.03) 100%), linear-gradient(to top, rgba(255,255,255,0.1) 0%, rgba(143,152,157,0.60) 100%)</div>
+		<div class="canvas manyHue pure">linear-gradient(to right, #00DBDE 0%, #FC00FF 100%)</div>
+		<div class="canvas yellowHue pure">linear-gradient(to right, #F9D423 0%, #FF4E50 100%)</div>
+		<div class="canvas greenHue pure">linear-gradient(to top, #50CC7F 0%, #F5D100 100%)</div>
+		<div class="canvas redHue pure">linear-gradient(-20deg, #FC6076 0%, #FF9A44 100%)</div>
+		<div class="canvas toned">linear-gradient(to top, #DFE9F3 0%, white 100%)</div>
+		<div class="canvas shaded">
+			background: linear-gradient(to bottom, #323232 0%, #3F3F3F 40%, #1C1C1C 150%), linear-gradient(to top, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.25) 200%);
+ 			background-blend-mode: multiply
+		</div>
+		<div class="canvas blueHue tinted">
+			background: linear-gradient(to bottom, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), linear-gradient(to bottom, rgba(0,0,0,0.02) 50%, rgba(255,255,255,0.02) 61%, rgba(0,0,0,0.02) 73%), linear-gradient(33deg, rgba(255,255,255,0.20) 0%, rgba(0,0,0,0.20) 100%);
+ 			background-blend-mode: normal,color-burn
+		</div>
+	</div>
+</section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
+</body>
+</html>

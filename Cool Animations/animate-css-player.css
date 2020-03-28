@@ -1,0 +1,150 @@
+html{font-size: 10px}
+*{box-sizing: border-box;}
+.flex-container{display: flex; font-size: 3rem; flex-flow: row wrap; padding: 0 2rem; text-align: center;}
+.item{display: flex; justify-content: center; align-items: center; width: 25%; min-height:20rem;}
+.item > *{ animation-name: none;}
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.item:hover > .bounce {
+    animation-name: bounce;
+}
+.item:hover > .flash {
+  animation-name: flash;
+}
+.item:hover > .pulse {
+  animation-name: pulse;
+}
+.item:hover > .rubberBand {
+  animation-name: rubberBand;
+}
+.item:hover > .shake {
+  animation-name: shake;
+}
+.item:hover > .swing {
+  animation-name: swing;
+}
+.item:hover > .tada {
+  animation-name: tada;
+}
+.item:hover > .wobble {
+  animation-name: wobble;
+}
+.item:hover > .jello {
+  animation-name: jello;
+}
+.item:hover > .heartBeat {
+  animation-name: heartBeat;
+}
+.item:hover > .bounceIn {
+  animation-name: bounceIn;
+}
+.item:hover > .bounceInDown {
+  animation-name: bounceInDown;
+}
+.item:hover > .bounceInLeft {
+  animation-name: bounceInLeft;
+}
+.item:hover > .bounceInRight {
+  animation-name: bounceInRight;
+}
+.item:hover > .bounceInUp {
+  animation-name: bounceInUp;
+}
+.item:hover > .bounceOut {
+  animation-name: bounceOut;
+}
+.item:hover > .bounceOutDown {
+  animation-name: bounceOutDown;
+}
+.item:hover > .bounceOutLeft {
+  animation-name: bounceOutLeft;
+}
+.item:hover > .bounceOutRight {
+  animation-name: bounceOutRight;
+}
+.item:hover > .bounceOutUp {
+  animation-name: bounceOutUp;
+}
+.item:hover > .fadeIn {
+  animation-name: fadeIn;
+}
+.item:hover > .fadeInDown {
+  animation-name: fadeInDown;
+}
+.item:hover > .fadeInDownBig {
+  animation-name: fadeInDownBig;
+}
+.item:hover > .fadeInLeft {
+  animation-name: fadeInLeft;
+}
+.item:hover > .fadeInLeftBig {
+  animation-name: fadeInLeftBig;
+}
+.item:hover > .fadeInRight {
+  animation-name: fadeInRight;
+}
+.item:hover > .fadeInRightBig {
+  animation-name: fadeInRightBig;
+}
+.item:hover > .fadeInUp {
+  animation-name: fadeInUp;
+}
+.item:hover > .fadeInUpBig {
+  animation-name: fadeInUpBig;
+}
+
+.item:hover > .fadeOut {
+  animation-name: fadeOut;
+}
+.item:hover > .fadeOutDown {
+  animation-name: fadeOutDown;
+}
+.item:hover > .fadeOutDownBig {
+  animation-name: fadeOutDownBig;
+}
+.item:hover > .fadeOutLeft {
+  animation-name: fadeOutLeft;
+}
+.item:hover > .fadeOutLeftBig {
+  animation-name: fadeOutLeftBig;
+}
+.item:hover > .fadeOutRight {
+  animation-name: fadeOutRight;
+}
+.item:hover > .fadeOutRightBig {
+  animation-name: fadeOutRightBig;
+}
+.item:hover > .fadeOutUp {
+  animation-name: fadeOutUp;
+}
+.item:hover > .fadeOutUpBig {
+  animation-name: fadeOutUpBig;
+}
+.item:hover > .flip {
+  animation-name: flip;
+}
+.item:hover > .flipInX {
+  animation-name: flipInX;
+}
+.item:hover > .flipInY {
+  animation-name: flipInY;
+}
+.item:hover > .flipOutX {
+  animation-name: flipOutX;
+}
+.item:hover > .flipOutY {
+  animation-name: flipOutY;
+}
+
+.item:hover > .bounce {
+    animation-name: bounce;
+}
+
+.item:hover > .neon-wrapper > .dodge {
+    animation-name: bounce;
+}

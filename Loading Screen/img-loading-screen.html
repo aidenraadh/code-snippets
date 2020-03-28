@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+        <title>Image Loading Screen</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="css/img-loading-screen.css">
+        <style type="text/css">
+        p{margin: 2rem 0;}
+        code{display: block; padding-left: 5rem; margin: 1rem 0;}
+        </style>
+</head>
+<body>
+  <p>
+    This is an image loading screen.<br>
+    To use this, create an element with class <i>content-container</i>. that acts as the image container<br>
+    Let say we use a &lt;div&gt; element.
+    <code>
+      &lt;div class="content-container"&gt;<br><br>
+      &lt;/div&gt;
+    </code>
+    Then, wrap image inside an element with class <i>content-container</i>.<br>
+    Put this code below inside <i>content-container</i> element.
+    <code>
+        &lt;div class="img-loader-wrapper"&gt;<br>
+        &lt;span class="img-loader"&gt;&lt;span class="img-loader-inner"&gt;&lt;/span&gt;&lt;/span&gt;<br>
+        &lt;/div&gt;
+    </code>
+    After that, you can put the image element inside <i>content-container</i> element.<br>
+    Don't forget to make the <i>content-container</i> element's width be the same as the image element's width.
+  </p>
+
+<div class="content-container" style="width: 250px; margin: 0 auto;">
+  <div class="img-loader-wrapper">
+    <span class="img-loader"><span class="img-loader-inner"></span></span>
+  </div>  
+  <img src="fighting-at-the-hotel-de-ville-jean-victor-schnetz.jpg" width="250px" height="auto">
+</div>
+
+<p>
+  The CSS and JS code is down below.<br>
+  <a href="css/img-loading-screen.css">CSS code</a><br>
+  <a href="js/img-loading-screen.js">JS code</a><br>
+  NOTE: to see the full effect, open developer tools, disable the automatic cache, set the throttling to slow 3G, then reload the page.
+</p>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/img-loading-screen.js"></script>
+</body>
+</html>
