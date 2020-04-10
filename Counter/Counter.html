@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>test view</title>
+<body>
+
+<div id="number">0</div>
+
+<script defer>
+class Counter{
+    constructor(id, stop, step, speed){
+        this.el = document.getElementById(id);
+        this.speed = speed;
+        this.start = 0;
+        this.stop = stop;
+        this.stepVal = Math.round(this.stop / step);
+
+        this.el.innerHTML = this.start;
+    }
+    startCount(){
+        const intID = setInterval(function(Counter){
+            Counter.start += Counter.stepVal;
+            Counter.el.innerHTML = Counter.start;
+            if((Counter.start + Counter.stepVal) >= Counter.stop){
+                Counter.start = Counter.stop;
+                Counter.el.innerHTML = Counter.stop;
+                clearInterval(intID);
+            }                
+        }, this.speed, this);
+    }
+}
+
+const counter = new Counter('number', 12345, 10, 50);
+
+counter.startCount();
+</script>
+</body>
+
+</html>
+
