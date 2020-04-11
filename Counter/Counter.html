@@ -17,7 +17,7 @@ class Counter{
         this.speed = speed;
         this.start = 0;
         this.stop = stop;
-        this.stepVal = Math.round(this.stop / step);
+        this.stepVal = Math.ceil(this.stop / step);
 
         this.el.innerHTML = this.start;
     }
@@ -34,7 +34,7 @@ class Counter{
     }
 }
 
-const counter = new Counter('number', 12345, 10, 50);
+const counter = new Counter('number', 1, 10, 50);
 
 counter.startCount();
 </script>
