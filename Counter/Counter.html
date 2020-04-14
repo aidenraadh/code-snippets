@@ -5,39 +5,86 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>test view</title>
+    <title>Counter</title>
+    <link rel="stylesheet" type="text/css" href="app.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <body>
 
-<div id="number">0</div>
+<section class="Section">
+    <h5>Demo</h5>
+    <div id="number">1</div>
+    <button type="button" class="startCount">Start counting</button>    
+    <button type="button" class="reset">Reset</button>
+</section>
+<section class="Section">
+    <h5>Initialization</h5>
+    <code style="display: block; width: 100%; text-align: center;">
+        var counter = new Counter(id, stop, step, |speed|(opt));
+    </code>
+    <p>
+        The syntax above is used to initialize counter object.
+    </p>
+    <article style="margin-bottom: 1rem;">
+        <code style="font-weight: bold;">id</code><br>
+        This is the id of the elemenet that will be counted. The element musn't have anything inside it besides text node.
+        When intialized, the element's inner HTML will be set to 0.
+    </article>
+    <article style="margin-bottom: 1rem;">
+        <code style="font-weight: bold;">stop</code><br>
+        This is a numeric value representing when the counting will stop. e.g. <code>stop = 10</code>, then the counting will stop when the number is <code>10</code>.
+    </article>
+    <article style="margin-bottom: 1rem;">
+        <code style="font-weight: bold;">step</code><br>
+        This is an integer representing the step it will take to reach the stop number. Let say the <code>stop</code> is 10, and the <code>step</code> is 10. Then the number will get an addition ten times from 0 untill it reaches 10.
+    </article>
+    <article style="margin-bottom: 1rem;">
+        <code style="font-weight: bold;">speed</code><br>
+        This is an integer (in miliseconds) representing the speed of the addition, the default value is <code>50</code>. Let say <code>stop = 10; step = 10; and speed = 50</code>. It will make the number get addition 10 times from 0 to ten, and the addition will occur every 50 miliseconds.
+        <article>
 
-<script defer>
+</section>
+<section class="Section">
+    <h5>Start Count</h5>
+    <code style="display: block; width: 100%; text-align: center;">
+        counter.startCount();
+    </code>
+    The syntax above start the counting.<br>
+    <code>counter</code> is the <code>Counter</code> object.
+</section>
+
+
+<textarea id="JSBoard" style="opacity: 0; position: fixed; left: -100%;">
 class Counter{
     constructor(id, stop, step, speed){
         this.el = document.getElementById(id);
-        this.speed = speed;
         this.start = 0;
         this.stop = stop;
         this.stepVal = Math.ceil(this.stop / step);
+        this.speed = (speed === undefined ? 50 : speed);
 
         this.el.innerHTML = this.start;
     }
     startCount(){
         const intID = setInterval(function(Counter){
-            Counter.start += Counter.stepVal;
-            Counter.el.innerHTML = Counter.start;
             if((Counter.start + Counter.stepVal) >= Counter.stop){
                 Counter.start = Counter.stop;
                 Counter.el.innerHTML = Counter.stop;
                 clearInterval(intID);
-            }                
+            }
+            else{
+                Counter.start += Counter.stepVal;
+                Counter.el.innerHTML = Counter.start;
+            }       
         }, this.speed, this);
     }
 }
+</textarea>
 
-const counter = new Counter('number', 1, 10, 50);
-
-counter.startCount();
-</script>
+<section style="position: fixed; right: 2rem; top: 0; display: flex; flex-direction: column;">
+    <h5>Copy Code</h5>
+    <button style="display: block; padding: 1rem;" type="button" id="copyJS" data-board-target="JSBoard">JS</button>
+</section>
+<script type="text/javascript" src="app.js" defer></script>
 </body>
 
 </html>
