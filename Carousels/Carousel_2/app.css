@@ -17,7 +17,10 @@ body {
   color: rgba(0,0,0,0.8);
 }
 
-code {
+code.block{
+  display: block;
+  text-align: center;
+  width: 100%;
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
@@ -27,21 +30,34 @@ code {
   margin-bottom: 4rem;
 }
 
-.Section h5{
+.Section h4{
   font-size: 2.2rem;
 }
 
+.Section h5{
+  font-size: 1.8rem;
+}
+
 .Carousel{
-    width: 40rem;
+	box-sizing: border-box;
+	width: 110rem;
+	overflow-x: hidden;
 }
 
 .Carousel .body{
-    display: flex;
-    width: 100%;
-    overflow-x: hidden;
+	width: 100%;
+	box-sizing: border-box;
+	display: flex;
+	transform-origin: center center;
+	transition: transform 0.5s ease;
 }
 
-.Carousel .display, .Carousel .item{
-    width: 100%;
-    flex-shrink: 0;
-} 
+.Carousel .item{
+	box-sizing: border-box;
+    flex-shrink: 0; width: 45%; margin: 0 4%;
+    transform: scale(0.8); transition: transform 1s ease;
+}
+
+.Carousel .item.active{
+    transform: scale(1);
+}

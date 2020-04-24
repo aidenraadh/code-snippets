@@ -1,14 +1,32 @@
+function copyToClipboard(id){
+    const board = document.getElementById(id);
+    board.select();
+    document.execCommand("copy");
+    alert('Code copied.');
+}
+
+$('#copyHTML').click(function(){
+    copyToClipboard($(this).attr('data-board-target'));
+});
+
+$('#copyCSS').click(function(){
+    copyToClipboard($(this).attr('data-board-target'));
+});
+
+
+$('#copyJS').click(function(){
+    copyToClipboard($(this).attr('data-board-target'));
+});
+
 class Carousel{
 
-    constructor(carousel, items, animDur, animTimingFunc){
-        this.carousel = document.getElementById(carousel);
-
+    constructor(carouselID, items, animDur, animTimingFunc){
         this.itemsHTML = Object.keys(items).map((index) =>
             items[index].innerHTML
         );
         this.currentItem = 0;
-        this.body = document.querySelector('#'+carousel+' .body');
-        this.currentDisplay = document.querySelector('#'+carousel+' .display');
+        this.body = document.querySelector('#'+carouselID+' .body');
+        this.currentDisplay = document.querySelector('#'+carouselID+' .display');
         this.currentDisplay.innerHTML = this.itemsHTML[this.currentItem];
         this.newDisplay = null;
 
@@ -114,4 +132,4 @@ addEventListener('click', function(){
 document.querySelector('.SlideCarousel.right').
 addEventListener('click', function(){
     carousel.nextItem();
-});  
+});

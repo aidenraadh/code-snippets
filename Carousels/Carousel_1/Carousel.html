@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Carousel</title>
+    <link rel="stylesheet" type="text/css" href="app.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>    
+</head>
+
+<body>
+
+<section class="Section">
+    <h4>Demo</h4>
+    <div class="Carousel" id="testcarousel" style="margin: 0 auto;">
+        <div class="body">
+            <div class="display">
+            </div>
+            <div class="item">
+                <img src="img_chania.jpg" style="width: 100%; height: auto">
+            </div>
+            <div class="item">
+                <img src="img_chania2.jpg" style="width: 100%; height: auto">
+            </div>
+            <div class="item">
+                <img src="img_flower.jpg" style="width: 100%; height: auto">
+            </div>     
+            <div class="item">
+                <img src="img_flower2.jpg" style="width: 100%; height: auto">
+            </div>         
+        </div>
+        <button class="SlideCarousel left" type="button">
+            &lt;
+        </button>
+        <button class="SlideCarousel right" type="button">
+            &gt;
+        </button>
+    </div>    
+</section>
+
+<section class="Section">
+    <h4>Initialization</h4>
+    <code class="block">
+        var carousel = new Carousel(carouselID, items, |animDur, animTimingFunc|(opt));
+    </code>
+    <p>
+        The syntax above is used to initialize carousel object.
+    </p><br>
+    <article style="margin-bottom: 1rem;">
+        <code style="font-weight: bold;">carouselID</code><br>
+        This is a string representing the ID of the carousel.
+    </article>    
+    <article style="margin-bottom: 1rem;">
+        <code style="font-weight: bold;">items</code><br>
+        This is a node array representing all <code>.item</code> element inside the carousel. You can use <code>querySelectorAll()</code> method.
+    </article>
+    <article style="margin-bottom: 1rem;">
+        <code style="font-weight: bold;">animDur</code><br>
+        This is an integer representing the duration of carousel animation in miliseconds. Default value is 1000.
+    </article>
+    <article style="margin-bottom: 1rem;">
+        <code style="font-weight: bold;">animTimingFunc</code><br>
+        This is a string representing the timing function of the carousel animation. The default value is 'ease'.
+    </article>
+</section>
+
+<section class="Section">
+    <h4 style="margin-bottom: 1rem;">Sliding The Items</h4>
+    <article style="margin-bottom: 1rem;">
+        <h5 style="font-weight: bold;">Previous Item</h5>
+        <code class="block">carousel.prevItem()</code>
+        This method is used to slide into the previous item in respect to the current one.
+    </article>    
+    <article style="margin-bottom: 1rem;">
+        <h5 style="font-weight: bold;">Next Item</h5>
+        <code class="block">carousel.nextItem()</code>
+        This method is used to slide into the next item in respect to the current one.
+    </article>
+    <article style="margin-bottom: 1rem;">
+        <h5 style="font-weight: bold;">Specific Item</h5>
+        <code class="block">carousel.goToItem(item)</code>
+        This method is used to slide into a specific item in respect to the current one.<br>
+        The <code>item</code> argument is an integer representing the item's order you want to access. Starts from 0.
+    </article>
+</section>
+
+<section class="Section">
+    <h4 style="margin-bottom: 1rem;">Modifying The CSS</h4>
+    <article style="margin-bottom: 1rem;">
+        <h5 style="font-weight: bold;">Changing Item's Width</h5>
+        All carousel's items should have the same width.<br>
+        The to change the items' width. you can change the <code>.Carousel</code> selector.<br><br>
+        <code>Ex: .Carousel{<br>width: 2rem;<br>}</code>
+    </article>    
+    <article style="margin-bottom: 1rem;">
+        <h5 style="font-weight: bold;">Changing Item's Padding</h5>
+        To give an item padding, wrap the item's content inside a container elmeent and give that container paddong.<br>
+    </article> 
+</section>
+
+<textarea id="HTMLBoard" style="opacity: 0; position: fixed; left: -100%;">
+&#x3C;div class=&#x22;Carousel&#x22; id=&#x22;testcarousel&#x22;&#x3E;
+    &#x3C;div class=&#x22;body&#x22;&#x3E;
+        &#x3C;div class=&#x22;display&#x22;&#x3E;
+        &#x3C;/div&#x3E;
+        &#x3C;div class=&#x22;item&#x22;&#x3E;
+            &#x3C;h4&#x3E;1&#x3C;/h4&#x3E;
+            &#x3C;!-- Your item here --&#x3E;
+        &#x3C;/div&#x3E;
+        &#x3C;div class=&#x22;item&#x22;&#x3E;
+            &#x3C;h4&#x3E;2&#x3C;/h4&#x3E;
+            &#x3C;!-- Your item here --&#x3E;
+        &#x3C;/div&#x3E;
+        &#x3C;div class=&#x22;item&#x22;&#x3E;
+            &#x3C;h4&#x3E;3&#x3C;/h4&#x3E;
+            &#x3C;!-- Your item here --&#x3E;
+        &#x3C;/div&#x3E;     
+        &#x3C;div class=&#x22;item&#x22;&#x3E;
+            &#x3C;h4&#x3E;4&#x3C;/h4&#x3E;
+            &#x3C;!-- Your item here --&#x3E;
+        &#x3C;/div&#x3E;         
+    &#x3C;/div&#x3E;
+&#x3C;/div&#x3E;        
+</textarea>
+
+<textarea id="CSSBoard" style="opacity: 0; position: fixed; left: -100%;">
+.Carousel{
+    width: 40rem;
+}
+
+.Carousel .body{
+    display: flex;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.Carousel .display, .Carousel .item{
+    width: 100%;
+    flex-shrink: 0;
+}    
+</textarea>
+<textarea id="JSBoard" style="opacity: 0; position: fixed; left: -100%;">
+class Carousel{
+
+    constructor(carouselID, items, animDur, animTimingFunc){
+        this.itemsHTML = Object.keys(items).map((index) =>
+            items[index].innerHTML
+        );
+        this.currentItem = 0;
+        this.body = document.querySelector('#'+carouselID+' .body');
+        this.currentDisplay = document.querySelector('#'+carouselID+' .display');
+        this.currentDisplay.innerHTML = this.itemsHTML[this.currentItem];
+        this.newDisplay = null;
+
+        this.isAnimating = false;
+        this.animDur = (animDur === undefined ? 1000 : animDur);
+        this.animTimingFunc = (animTimingFunc === undefined ? 'ease' : animTimingFunc);
+    }
+
+    createNewDisplay(itemTarget){
+        this.newDisplay = document.createElement('div');
+        this.body.insertBefore(this.newDisplay, this.currentDisplay.nextSibling);
+        this.newDisplay.innerHTML = this.itemsHTML[itemTarget];
+        this.newDisplay.classList.add('display');            
+    }
+
+    callback(){
+        this.newDisplay.offsetHeight;
+        this.currentDisplay.parentNode.removeChild(this.currentDisplay);
+        this.newDisplay.removeAttribute('style');
+        this.currentDisplay = this.newDisplay;
+        this.isAnimating = false;
+    }
+
+    slide(DSlideVal, NDSlideVal){
+        this.isAnimating = true;
+        this.newDisplay.offsetHeight;
+        this.newDisplay.setAttribute(
+            'style',
+            'transition-duration: '+this.animDur+'ms;'+
+            'transition-timing-function: '+this.animTimingFunc+';'+
+            'transition-property: transform;'+
+            'transform: translateX('+NDSlideVal+'%);'
+        );
+        this.currentDisplay.setAttribute(
+            'style',
+            'transition-duration: '+this.animDur+'ms;'+
+            'transition-timing-function: '+this.animTimingFunc+';'+
+            'transition-property: transform;'+
+            'transform: translateX('+DSlideVal+'%);'
+        );
+
+        this.currentDisplay.addEventListener('transitionend', this.callback.bind(this));
+                            
+    }
+
+    prevItem(){
+        if(!this.isAnimating){
+            if(this.currentItem === 0){
+                this.currentItem = this.itemsHTML.length - 1;
+            }
+            else{
+                this.currentItem -= 1;
+            }
+            this.createNewDisplay(this.currentItem);
+            this.newDisplay.setAttribute('style', 'transform: translateX(-200%);');
+            this.slide(100, -100);
+        }
+    }
+
+    nextItem(){
+        if(!this.isAnimating){
+            if(this.currentItem === (this.itemsHTML.length - 1)){
+                this.currentItem = 0;
+            }
+            else{
+                this.currentItem += 1;
+            }
+            this.createNewDisplay(this.currentItem);
+            this.slide(-100, -100);
+        }
+    }
+
+    goToItem(itemTarget){
+        if((itemTarget !== this.currentItem) && (itemTarget >= 0 && itemTarget < this.itemsHTML.length)){
+            if(!this.isAnimating){
+                this.createNewDisplay(itemTarget);
+                if(itemTarget < this.currentItem){
+                    this.currentItem = itemTarget;
+                    this.newDisplay.setAttribute('style', 'transform: translateX(-200%);');
+                    this.slide(100, -100);
+                }
+                else{
+                    this.currentItem = itemTarget;
+                    this.slide(-100, -100);
+                }
+            }
+        }
+    }
+}
+</textarea>
+
+<section style="position: fixed; right: 2rem; top: 0; display: flex; flex-direction: column;">
+    <h4>Copy Code</h4>
+    <button style="display: block; padding: 1rem;" type="button" id="copyHTML" data-board-target="HTMLBoard">HTML</button>
+    <button style="display: block; padding: 1rem;" type="button" id="copyCSS" data-board-target="CSSBoard">CSS</button>
+    <button style="display: block; padding: 1rem;" type="button" id="copyJS" data-board-target="JSBoard">JS</button>
+</section>
+
+<script type="text/javascript" src="app.js"></script>
+
+</body>
+
+</html>
