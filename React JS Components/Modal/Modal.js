@@ -46,20 +46,20 @@ class Modal extends React.Component{
     	let modalOverlay = modal.children[0];
     	let modalContent = modalOverlay.children[0];
 
-    	// Show the modal
-		if(modalShown){
-			modal.classList.add('shown');
-			modalOverlay.addEventListener('transitionend', function(){
-				modalContent.classList.add('shown');
-			}, {once: true});
-		}
-		// Hide the modal
-		else{
-			modalContent.classList.remove('shown');
-			modalContent.addEventListener('transitionend', function(){
-				modal.classList.remove('shown');
-			}, {once: true});
-		}
+      // Show the modal
+		  if(modalShown){
+		  	modal.classList.add('shown');
+		  	modalOverlay.addEventListener('transitionend', function(){
+		  		modalContent.classList.add('shown');
+		  	}, {once: true});
+		  }
+		  // Hide the modal
+		  else{
+		  	modalContent.classList.remove('shown');
+		  	modalContent.addEventListener('transitionend', function(){
+		  		modal.classList.remove('shown');
+		  	}, {once: true});
+		  }
     }
 
     componentDidMount(){

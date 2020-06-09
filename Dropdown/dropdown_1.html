@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dropdown</title>
+	<style type="text/css">
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html{
+	font-size: 10px;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+h1,h2,h3,h4,h5,h6{
+	font-weight: normal;
+}
+
+a{
+	text-decoration: none;
+	cursor: pointer;
+}
+
+th{
+	font-weight: normal;
+}
+
+button{
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	outline: none;
+}
+
+input, select{
+	outline: none;
+}
+
+input:focus, select:focus {
+    outline-offset: 0;
+}
+
+select{
+	text-transform: capitalize;
+}
+
+@media only screen and (min-width: 1281px) {
+  html{
+    font-size: 0.78125vw;
+  }
+}
+
+@media only screen and (max-width: 1280px) {
+	html{
+		font-size: calc(10px -  ( (1280px - 100vw) *  0.00138 ) );
+	}
+}		
+.dropdown{
+    position: relative;
+    display: inline-block;
+    overflow: none;
+}
+
+.dropdown .toggle{
+    display: block;
+    padding: 1.2rem 1.2rem;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 1.5rem;
+    color: #595d6e;
+}
+
+.dropdown .menu{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    min-width: 20rem;
+    padding: 1.4rem 0;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 50px 0px rgba(82, 63, 105, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transition-property: opacity, transform;
+    transition-duration: 0.3s, 0.3s;
+}
+
+.dropdown.bottom .menu{
+	top: 100%; left: 0;
+	transform: translateY(4%);
+}
+
+.dropdown.right .menu{
+	top: 0; left: 100%;
+	transform: translateX(4%);
+}
+
+.dropdown.left .menu{
+	top: 0; right: 100%;
+	transform: translateX(-4%);
+}
+
+.dropdown.up .menu{
+	bottom: 100%; left: 0;
+	transform: translateY(-4%);
+}
+
+.dropdown .item{
+    display: inline-block;
+    padding: 1.2rem 1.2rem;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 1.5rem;
+    color: #595d6e;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown .footer{
+    display: flex;
+    justify-content: flex-end;
+    padding: 1.2rem 1.2rem 0;
+    border-top: 1px solid #ebedf2;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 1.5rem;
+    color: #595d6e;    
+}
+
+.dropdown .item:hover{
+    background-color: #f7f8fa;
+}
+
+.dropdown.bottom .toggle:focus ~ .menu{
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown.bottom .menu:hover{
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown.right .toggle:focus ~ .menu{
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.dropdown.right .menu:hover{
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.dropdown.left .toggle:focus ~ .menu{
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.dropdown.left .menu:hover{
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.dropdown.up .toggle:focus ~ .menu{
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown.up .menu:hover{
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+	</style>
+</head>
+<body>
+
+<div class="dropdown bottom" style="margin: 10vh 30% 0;">
+    <button type="button" class="toggle">Top dropdown</button>
+    <section class="menu">
+        <a class="item" href="#">asdf</a>
+        <a class="item" href="#">asdf</a>
+        <a class="item" href="#">asdf</a>
+        <a class="item" href="#">asdf</a>
+        <div class="footer">
+        	Footer
+        </div>
+    </section>
+</div>
+
+<div class="dropdown right" style="margin: 40vh 30% 0;">
+    <button type="button" class="toggle">Right dropdown</button>
+    <section class="menu">
+        <a class="item" href="#">asdf</a>
+        <a class="item" href="#">asdf</a>
+        <a class="item" href="#">asdf</a>
+        <a class="item" href="#">asdf</a>
+        <div class="footer">
+        	Footer
+        </div>
+    </section>
+</div>
+
+<div class="dropdown left" style="margin: 30vh 30% 0;">
+    <button type="button" class="toggle">Left dropdown</button>
+    <section class="menu">
+        <a class="item" href="#">asdf</a>
+        <a class="item" href="#">asdf</a>
+        <a class="item" href="#">asdf</a>
+        <a class="item" href="#">asdf</a>
+        <div class="footer">
+        	Footer
+        </div>
+    </section>
+</div>
+
+
+<div class="dropdown up" style="margin: 30vh 30% 50vh;">
+    <button type="button" class="toggle">Up dropdown</button>
+    <section class="menu">
+        <a class="item" href="#">asdf</a>
+        <a class="item" href="#">asdf</a>
+        <a class="item" href="#">asdf</a>
+        <a class="item" href="#">asdf</a>
+        <div class="footer">
+        	Footer
+        </div>
+    </section>
+</div>
+
+</body>
+</html>
