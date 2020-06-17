@@ -1,0 +1,106 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html{
+	font-size: 10px;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+h1,h2,h3,h4,h5,h6{
+	font-weight: normal;
+}
+
+address{
+	font-style: normal;
+}
+
+a{
+	text-decoration: none;
+	cursor: pointer;
+}
+
+th{
+	font-weight: normal;
+}
+
+button{
+	border: none;
+	cursor: pointer;
+	outline: none;
+	background-color: transparent;
+}
+
+button:focus{
+	outline: none;
+}
+
+input, select{
+	outline: none;
+}
+
+input:focus, select:focus {
+    outline-offset: 0;
+}
+
+select{
+	text-transform: capitalize;
+}
+
+.flex_row{
+	display: flex;
+}
+
+.flex_row.rev{
+	flex-direction: row-reverse;
+}
+
+.flex_col{
+	display: flex;
+	flex-direction: column;
+}
+
+.flex_col.rev{
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+
+.flex_row.content_start, .flex_col.content_start{
+	justify-content: flex-start;
+}
+
+.flex_row.content_end, .flex_col.content_end{
+	justify-content: flex-end;
+}
+
+.flex_row.content_center, .flex_col.content_center{
+	justify-content: center;
+}
+
+.flex_row.content_space_between, .flex_col.content_space_between{
+	justify-content: space-between;
+}
+
+.flex_row.items_start, .flex_col.items_start{
+	align-items: flex-start;
+}
+
+.flex_row.items_end, .flex_col.items_end{
+	align-items: flex-end;
+}
+
+.flex_row.items_center, .flex_col.items_center{
+	align-items: center;
+}
