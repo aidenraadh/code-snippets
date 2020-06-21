@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Slider</title>
+    <link rel="stylesheet" type="text/css" href="app.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>    
+</head>
+
+<body>
+
+<section class="Section">
+    <h4>Demo</h4>
+    <div class="slider" id="testslider">
+        <div class="body">
+            <div class="item">
+                <img src="img_chania.jpg" style="width: 100%; height: auto;">
+            </div>
+            <div class="item">
+                <img src="img_chania2.jpg" style="width: 100%; height: auto;">
+            </div>
+            <div class="item">
+                <img src="img_flower.jpg" style="width: 100%; height: auto;">
+            </div>     
+            <div class="item">
+               <img src="img_flower2.jpg" style="width: 100%; height: auto;">
+            </div>         
+        </div>
+    </div>        
+    <button type="button" id="btnprev">prev</button>
+    <button type="button" id="btnnext">next</button>
+    </div>    
+</section>
+
+<section class="Section">
+    <h4>Initialization</h4>
+    <code class="block">
+        var slider = new Slider(sliderID, |transDur|(opt)).init(prevBtn, nextBtn);
+    </code>
+    <p>
+        The syntax above is used to initialize carousel object.
+    </p><br>
+    <article style="margin-bottom: 1rem;">
+        <code style="font-weight: bold;">sliderID</code><br>
+        This is a string representing the ID of the carousel.
+    </article>    
+
+    <article style="margin-bottom: 1rem;">
+        <code style="font-weight: bold;">transDur</code><br>
+        This is an integer representing the duration of carousel animation in miliseconds. Default value is 1000.
+    </article>
+    <article style="margin-bottom: 1rem;">
+        <code style="font-weight: bold;">prevBtn</code><br>
+        This is a DOM node representing the button that will slide the slider to the previous item.
+    </article>
+    <article style="margin-bottom: 1rem;">
+        <code style="font-weight: bold;">nextBtn</code><br>
+        This is a DOM node representing the button that will slide the slider to the next item.
+    </article>        
+</section>
+
+<section class="Section">
+    <h4 style="margin-bottom: 1rem;">Modifying The CSS</h4>
+    <article style="margin-bottom: 1rem;">
+        <h5 style="font-weight: bold;">Changing Item's Width</h5>
+        All carousel's items should have the same width.<br>
+        The to change the items' width. you can change the <code>.slider</code> selector.<br><br>
+        <code>Ex: .slider{<br>width: 2rem;<br>}</code>
+    </article>    
+    <article style="margin-bottom: 1rem;">
+        <h5 style="font-weight: bold;">Changing Item's Padding</h5>
+        To give an item padding, wrap the item's content inside a container elmeent and give that container paddong.<br>
+    </article> 
+</section>
+
+<textarea id="HTMLBoard" style="opacity: 0; position: fixed; left: -100%;">
+&#x3C;div class=&#x22;slider&#x22;&#x3E;
+    &#x3C;div class=&#x22;body&#x22;&#x3E;
+        &#x3C;div class=&#x22;item&#x22;&#x3E;
+            &#x3C;!-- Your item here --&#x3E;
+        &#x3C;/div&#x3E;
+        &#x3C;div class=&#x22;item&#x22;&#x3E;
+            &#x3C;!-- Your item here --&#x3E;
+        &#x3C;/div&#x3E;
+        &#x3C;div class=&#x22;item&#x22;&#x3E;
+            &#x3C;!-- Your item here --&#x3E;
+        &#x3C;/div&#x3E;     
+        &#x3C;div class=&#x22;item&#x22;&#x3E;
+           &#x3C;!-- Your item here --&#x3E;
+        &#x3C;/div&#x3E;         
+    &#x3C;/div&#x3E;
+&#x3C;/div&#x3E;        
+</textarea>
+
+<textarea id="CSSBoard" style="opacity: 0; position: fixed; left: -100%;">
+.slider{
+    width: 50rem;
+    display: flex;
+    overflow-x: hidden;
+}
+
+.slider .body{
+    width: 100%;
+    display: flex;
+    flex-shrink: 0;
+    transition-property: transform;
+}
+
+.slider .item{
+    width: 100%;
+    flex-shrink: 0;
+}
+</textarea>
+<textarea id="JSBoard" style="opacity: 0; position: fixed; left: -100%;">
+class Slider{
+    constructor(sliderid, transDur){
+        this.slider = document.getElementById(sliderid);
+        this.body = document.querySelector('#'+sliderid+' > .body');
+        this.pseudoBody = null;
+        this.sliderItems = this.body.innerHTML;
+        this.itemPos = {
+            current: 0,
+            first: 0,
+            last: document.querySelectorAll('#'+sliderid+' .item').length - 1
+        };
+        this.transDur = (transDur ? transDur : '300');
+        this.slide = this.slide.bind(this);
+        this.newPseudoBody = this.newPseudoBody.bind(this);
+        this.nextItem = this.nextItem.bind(this);
+        this.prevItem = this.prevItem.bind(this);
+        this.init = this.init.bind(this);
+    }
+    slide(body, XValue, transDur){
+        this.slider.offsetHeight;
+        body.setAttribute('style',
+            'transition-duration: '+transDur+'ms;'+
+            'transform: translateX('+(XValue * 100)+'%);'
+        )
+    }
+    newPseudoBody(){
+        let el = document.createElement('div');
+        el.innerHTML = this.sliderItems;
+        this.slider.appendChild(el);
+        el.classList.add('body');
+        this.pseudoBody = this.body;
+        this.body = el;
+    }
+    prevItem(){
+        if(this.pseudoBody !== null){
+            this.pseudoBody.remove();
+            this.pseudoBody = null;
+            this.slide(this.body, (-1*this.itemPos.current), 0);                
+        }
+        if((this.itemPos.current - 1) >= this.itemPos.first){
+            this.itemPos.current -= 1;
+            this.slide(this.body, this.itemPos.current * -1, this.transDur);
+        }else{
+            this.newPseudoBody();               
+            this.body.setAttribute('style',
+                'transition-duration: 0;'+
+                'transform: translateX('+(-1*(this.itemPos.last+2))+'00%);'
+            );              
+            this.slide(this.pseudoBody, 1, this.transDur);
+            this.slide(this.body, -1 * (this.itemPos.last+1), this.transDur);
+            this.itemPos.current = this.itemPos.last;
+        }
+    }       
+    nextItem(){
+        if(this.pseudoBody !== null){
+            this.pseudoBody.remove();
+            this.pseudoBody = null;
+            this.slide(this.body, this.itemPos.current, 0);
+        }
+        if((this.itemPos.current + 1) <= this.itemPos.last){
+            this.itemPos.current += 1;
+            this.slide(this.body, this.itemPos.current * -1, this.transDur);
+        }else{
+            this.newPseudoBody();
+            this.slide(this.pseudoBody, -1 * (this.itemPos.current+1), this.transDur);
+            this.slide(this.body, -1, this.transDur);
+            this.itemPos.current = this.itemPos.first;
+        }
+    }
+    init(prevBtn, nextBtn){
+        prevBtn.addEventListener('click', this.prevItem);           
+        nextBtn.addEventListener('click', this.nextItem);
+    }
+}
+</textarea>
+
+<section style="position: fixed; right: 2rem; top: 0; display: flex; flex-direction: column;">
+    <h4>Copy Code</h4>
+    <button style="display: block; padding: 1rem;" type="button" id="copyHTML" data-board-target="HTMLBoard">HTML</button>
+    <button style="display: block; padding: 1rem;" type="button" id="copyCSS" data-board-target="CSSBoard">CSS</button>
+    <button style="display: block; padding: 1rem;" type="button" id="copyJS" data-board-target="JSBoard">JS</button>
+</section>
+
+<script type="text/javascript" src="app.js"></script>
+
+</body>
+
+</html>

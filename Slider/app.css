@@ -38,17 +38,20 @@ code.block{
   font-size: 1.8rem;
 }
 
-.Carousel{
-    width: 40rem;
-}
-
-.Carousel .body{
+.slider{
+    width: 50rem;
     display: flex;
-    width: 100%;
     overflow-x: hidden;
 }
 
-.Carousel .display, .Carousel .item{
+.slider .body{
+  width: 100%;
+    display: flex;
+    flex-shrink: 0;
+    transition-property: transform;
+}
+
+.slider .display, .slider .item{
     width: 100%;
     flex-shrink: 0;
-}
+}  
