@@ -231,7 +231,7 @@ class InstagramAPI{
 |   by field-expansion for each Media node in the result set.
 |
 | # Sample Response
-|   A JSON-formatted object containing an array the of user's media IDs
+|   A JSON-formatted object containing an array the of media IDs or the user
 |
 |   {
 |     "data": [
