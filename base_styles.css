@@ -77,30 +77,30 @@ select{
 }
 
 
-.flex_row.content_start, .flex_col.content_start{
+.content_start{
 	justify-content: flex-start;
 }
 
-.flex_row.content_end, .flex_col.content_end{
+.content_end{
 	justify-content: flex-end;
 }
 
-.flex_row.content_center, .flex_col.content_center{
+.content_center{
 	justify-content: center;
 }
 
-.flex_row.content_space_between, .flex_col.content_space_between{
+.content_space_between{
 	justify-content: space-between;
 }
 
-.flex_row.items_start, .flex_col.items_start{
+.items_start{
 	align-items: flex-start;
 }
 
-.flex_row.items_end, .flex_col.items_end{
+.items_end{
 	align-items: flex-end;
 }
 
-.flex_row.items_center, .flex_col.items_center{
+.items_center{
 	align-items: center;
 }

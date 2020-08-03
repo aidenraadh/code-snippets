@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Typewriter Effect</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<style type="text/css">
+
+.typewriter .text{
+	display: none;
+}
+.typewriter .realText{
+	visibility: hidden;
+	width: 1px; height: 1px;
+	overflow: hidden
+}
+
+.typewriter .board{
+	display: inline-block;
+	position: relative;
+}
+.typewriter .board::after{
+	content: '';
+	position: absolute;
+	top: 0; right: 0;
+	margin-left: 1rem;
+	height: 100%; width: 2px;
+	background-color: black;
+	z-index: 0;
+}
+
+</style>
+</head>
+<body>
+
+
+<h1 class="typewriter" id="test">
+	<span class="text" data-styled-text-start="8" data-styled-text-end="17" data-text-style="color: teal;">
+	This is typewriter effect.</span>
+	<span class="realText">
+		This is typewriter effect.
+	</span>
+	<span aria-hidden="true" class="board"></span>
+</h1>
+
+<script type="text/javascript">
+
+function typewriter(id, speed){
+	const textEl = document.querySelector('#'+id+' .text');
+	const styledTxtStart = textEl.getAttribute('data-styled-text-start');
+	const styledTxtEnd = textEl.getAttribute('data-styled-text-end');
+	const txtStyle = textEl.getAttribute('data-text-style');
+
+	const textArr = (function(){
+		const text = textEl.innerHTML.trim().split('');
+		return Object.keys(text).map((char, pos) => {
+			if((pos >= styledTxtStart) && (pos <= styledTxtEnd)){
+				return '<span style="'+txtStyle+'">'+text[pos]+'</span>';
+			}
+			else{
+				return '<span>'+text[pos]+'</span>';
+			}
+		});
+	}());
+
+	const board = document.querySelector('#'+id+' .board');
+	let counter = 0;
+	
+	const timeID = setInterval(function(textArr, board){
+		if(counter < textArr.length){
+			board.innerHTML += textArr[counter];
+			++counter;
+		}
+		else{
+			clearInterval(timeID);
+		}
+	}, (speed ? speed : 50), textArr, board);
+
+}
+
+typewriter('test');
+
+</script>
+</body>
+</html>

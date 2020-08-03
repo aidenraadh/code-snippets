@@ -1,46 +1,111 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <title>test</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Custom Tab</title>
+    <style type="text/css">
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html{font-size: 10px;}
+
+.tabs {
+  display: flex;
+  list-style: none;
+}
+
+.tabs .tab-item {
+}
+
+.tabs .tab-link {
+  font-size: 1.6rem;
+  text-decoration: none;
+}
+
+.tabs .tab-link:hover, .tabs .tab-link:focus {
+}
+
+.tabs .tab-link.active{
+
+}
+
+.tab-content{
+  display: flex;
+  overflow: hidden;
+}
+
+.tab-content > .tab-pane {
+  position: absolute;
+  top: 0; left: -110%;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  flex-shrink: 0;
+  font-size: 1.6rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tab-content > .tab-pane.active{
+  position: static;
+  top: auto; left: auto;
+  overflow: visible;
+  width: 100%;
+  height: auto;
+}
+
+.tab-content > .tab-pane.show{
+  opacity: 1;
+}
+    </style>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+
 <body>
 
-<ul class="tabs" id="myTab" role="tablist">
+<ul class="tabs"role="tablist">
   <li class="tab-item">
-    <a class="tab-link active" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+    <a class="tab-link active" data-toggle="tab" data-tab-content="myTabContent" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
   </li>
   <li class="tab-item">
-    <a class="tab-link" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+    <a class="tab-link" data-toggle="tab" data-tab-content="myTabContent" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
   </li>
   <li class="tab-item">
-    <a class="tab-link" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+    <a class="tab-link" data-toggle="tab" data-tab-content="myTabContent" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
   </li>
 </ul>
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane active show" id="home" role="tabpanel" aria-labelledby="home-tab">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    Home tab
   </div>
   <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-Oratio habemus vis in. Ei vis dicat laboramus, usu utamur quaestio ad, nec id vidit option evertitur. An pro wisi mucius. At nec assum debet, at nostro maiorum quaestio ius. Ocurreret accusamus eam ei, laoreet singulis ne vel.
-Vis tantas iudicabit corrumpit ut. Ex nam alia timeam, mea cu ipsum iudico ridens. Ut iriure commune menandri duo. Ex vix dolorem torquatos dissentias, ut has rebum regione volumus.   
+    Profile tab
   </div>
   <div class="tab-pane" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-Sed an definiebas disputando. Congue impedit admodum ei ius. Scaevola dignissim rationibus ex mei, no quodsi fabulas corrumpit mel. Eu eros admodum scripserit per, cu sumo scripserit sea. Eum ne ferri omnium suavitate, an usu ancillae qualisque necessitatibus, eam fierent iracundia id.
-
-An nam esse dissentiet. Debet malorum nam in, qui tale bonorum constituam at. Congue inermis patrioque pro at, ei sea iudico democritum inciderint, eu mel euismod patrioque definitiones. Ex eam vidisse volumus recusabo. Cu quas sonet accusamus quo. Viderer consectetuer at eum.  
+    Contact tab
   </div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+$('.tab-link').click(function(){
+  console.log('as');
+  let tabPaneTarget = $($(this).attr('href'));
+  let tabContent = '#'+$(this).attr('data-tab-content');
+  $(tabContent+' > .tab-pane.active.show').removeClass('show').one('transitionend', function(){
+    $(this).removeClass('active');
+    $(tabPaneTarget).addClass('active show');
+  })
+});
+  
+}); 
+</script>
 </body>
+
 </html>

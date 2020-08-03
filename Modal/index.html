@@ -113,24 +113,6 @@ h1,h2,h3,h4,h5,h6{
 
 <script type="text/javascript" defer>
 
-function toggleModal(modalid, modalShown){
-	const modal = document.getElementById(modalid);
-	const modalOverlay = document.querySelector('#'+modalid+' .overlay');
-	const modalContent = document.querySelector('#'+modalid+' .content');
-
-	if(modalShown){
-		modal.classList.add('shown');
-		modalOverlay.addEventListener('transitionend', function(){
-			modalContent.classList.add('shown');
-		}, {once: true});
-	}
-	else{
-		modalContent.classList.remove('shown');
-		modalContent.addEventListener('transitionend', function(){
-			modal.classList.remove('shown');
-		}, {once: true});
-	}
-} 
 
 </script>
 </body>
