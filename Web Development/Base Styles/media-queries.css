@@ -1,0 +1,39 @@
+@media only screen and (min-width: 1281px) {
+  html {
+    font-size: 0.78125vw;
+  }
+}
+
+@media only screen and (max-width: 1280px) {
+  html {
+    font-size: calc(10px - ( (1280px - 100vw) * 0.00138 ) );
+  }
+}
+
+@media only screen and (max-width: 1100px) {}
+
+@media only screen and (max-width: 1000px){}
+
+/*
+|--------------------------------------------------------------------------
+| Tablet Layout
+|--------------------------------------------------------------------------
+|
+*/
+
+@media only screen and (max-width: 900px){}
+
+@media only screen and (max-width: 800px){}
+
+@media only screen and (max-width: 700px){}
+
+/*
+|--------------------------------------------------------------------------
+| Mobile Layout
+|--------------------------------------------------------------------------
+|
+*/
+
+@media only screen and (max-width: 600px){}
+
+@media only screen and (max-width: 500px){}
