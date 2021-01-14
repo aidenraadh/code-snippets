@@ -38,7 +38,7 @@ code {
     width: 100%;
     overflow-x: visible;
     transition-property: transform;
-    transition-duration: 0;
+    transition-duration: 0ms;
 }
 
 .slider-item{
@@ -98,7 +98,7 @@ class Slider{
         this.wrapper.prepend(cloned_last);
         this.wrapper.append(cloned_first);
         this.wrapper.css('transform', 'translateX(-100%)');
-        this.wrapper.on('transitionend', () => {
+        this.wrapper.on('transitionend webkitTransitionEnd mozTransitionEnd oTransitionEnd', () => {
             if(this.current_item === 0 || this.current_item === this.items_l + 1){
                 switch(this.current_item){
                     case 0: this.current_item = this.items_l; break;
