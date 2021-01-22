@@ -72,8 +72,6 @@ code {
 <button type="button" id="next">next</button>
 
 <script defer>
-    let slider = $('#testslider');
-
 class Slider{
     constructor(slider_id, slide_dur = 300){
         this.wrapper = $('#'+slider_id+' > .slider-wrapper');
@@ -89,32 +87,33 @@ class Slider{
     }
 
     init(prev_btn, next_btn){
-        const cloned_first = this.wrapper.children().first().clone();
-        cloned_first.attr('aria-hidden', true);
-
-        const cloned_last = this.wrapper.children().last().clone();
-        cloned_last.attr('aria-hidden', true);
-        
-        this.wrapper.prepend(cloned_last);
-        this.wrapper.append(cloned_first);
-        this.wrapper.css('transform', 'translateX(-100%)');
-        this.wrapper.on('transitionend webkitTransitionEnd mozTransitionEnd oTransitionEnd', () => {
-            if(this.current_item === 0 || this.current_item === this.items_l + 1){
-                switch(this.current_item){
-                    case 0: this.current_item = this.items_l; break;
-                    case (this.items_l+1): this.current_item = 1; break;
-                    default: null;        
+        if(this.items_l > 1){
+            const cloned_first = this.wrapper.children().first().clone();
+            cloned_first.attr('aria-hidden', true);
+    
+            const cloned_last = this.wrapper.children().last().clone();
+            cloned_last.attr('aria-hidden', true);
+            
+            this.wrapper.prepend(cloned_last);
+            this.wrapper.append(cloned_first);
+            this.wrapper.css('transform', 'translateX(-100%)');
+            this.wrapper.on('transitionend webkitTransitionEnd mozTransitionEnd oTransitionEnd', () => {
+                if(this.current_item === 0 || this.current_item === this.items_l + 1){
+                    switch(this.current_item){
+                        case 0: this.current_item = this.items_l; break;
+                        case (this.items_l+1): this.current_item = 1; break;
+                        default: null;        
+                    }
+                    this.wrapper.css({
+                        transitionDuration: '0ms',
+                        transform: 'translateX('+(-1*this.current_item)+'00%)',
+                    });                
                 }
-                this.wrapper.css({
-                    transitionDuration: '0ms',
-                    transform: 'translateX('+(-1*this.current_item)+'00%)',
-                });                
-            }
-            this.is_animating = false
-        });
-
-        $(prev_btn).click(() => { this.prev(); });
-        $(next_btn).click(() => { this.next(); });
+                this.is_animating = false
+            });
+            $(prev_btn).click(() => { this.prev(); });
+            $(next_btn).click(() => { this.next(); });
+        }
     }
 
     next(){
