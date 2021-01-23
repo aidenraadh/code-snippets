@@ -76,7 +76,7 @@ class Slider{
     constructor(slider_id, slide_dur = 300){
         this.wrapper = $('#'+slider_id+' > .slider-wrapper');
         this.items_l = this.wrapper.children().length;
-        this.slide_dur = slide_dur;
+        this.slide_dur = slide_dur+'ms';
         this.current_item = 1;
         this.is_animating = false;
 
@@ -131,7 +131,7 @@ class Slider{
     slide(pos){
         this.is_animating = true;
         this.wrapper.css({
-            transitionDuration: this.slide_dur+'ms',
+            transitionDuration: this.slide_dur,
             transform: 'translateX('+pos+'00%)',
         });
     }
