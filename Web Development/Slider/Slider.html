@@ -29,7 +29,7 @@ code {
 }
 
 .slider{
-    display: flex;
+    display: block;
     overflow-x: hidden;
 }
 
@@ -72,22 +72,27 @@ code {
 <button type="button" id="next">next</button>
 
 <script defer>
+
 class Slider{
     constructor(slider_id, slide_dur = 300){
-        this.wrapper = $('#'+slider_id+' > .slider-wrapper');
-        this.items_l = this.wrapper.children().length;
-        this.slide_dur = slide_dur+'ms';
-        this.current_item = 1;
-        this.is_animating = false;
+        this.slider = $('#'+slider_id);
+        
+        if(this.slider.length){
+            this.wrapper = this.slider.children();
+            this.items_l = this.wrapper.children().length;
+            this.slide_dur = slide_dur+'ms';
+            this.current_item = 1;
+            this.is_animating = false;
 
-        this.init = this.init.bind(this);
-        this.prev = this.prev.bind(this);
-        this.next = this.next.bind(this);
-        this.slide = this.slide.bind(this);
+            this.init = this.init.bind(this);
+            this.prev = this.prev.bind(this);
+            this.next = this.next.bind(this);
+            this.slide = this.slide.bind(this);
+        }
     }
 
     init(prev_btn, next_btn){
-        if(this.items_l > 1){
+        if(this.items_l > 1 && this.slider.length){
             const cloned_first = this.wrapper.children().first().clone();
             cloned_first.attr('aria-hidden', true);
     
