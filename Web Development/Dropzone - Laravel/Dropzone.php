@@ -11,61 +11,57 @@ class Dropzone
 
     public function __construct($tmp_id, $timestamp){
         $this->tmp_id = $tmp_id;
-        $this->upload_batch = (int)$timestamp;
+        $this->upload_batch = (
+            is_int($timestamp) && $timestamp > 0 ?
+            $timestamp : time()
+        );
     }
 
     // Check the uploads batch, if uploads batch doesnt valid,
     // user is uploading or removing files by using different uploads session
-    public function checkUploads(){
-        $uploads = session('uploads', null);
-
-        if( !(isset($uploads) && $uploads['batch'] === $this->upload_batch) ){
-            return false;
-        }
-
-        return true;
-    }
-
-    // Called when uploads batch doesn't valid.
-    // Restart the uploads session, renew the upload batch,
-    // and empty the files array.
-    // Also empty the previously made tmp folder
-    // Uploads session structure:
+    // If $also_restart is true, restart the upload session, with structure:
     // $uploads = [
     //     'batch' => (int)uploads_batch,
     //     'files' => [
     //         'disk_name' => (arr)filenames,
     //         ...
     //     ]
-    // ];
-    private function restartUploads($disk_name){
-        session(['uploads' => [
-            'batch' => $this->upload_batch,
-            'files' => [
-                $disk_name => [],
-            ]
-        ]]);
+    // ];    
+    public function checkUploads($also_restart = false){
+        $uploads = session('uploads', null);
 
-        $disk = Storage::disk($disk_name);
-        $tmp_path = 'tmp/'.$this->tmp_id;
-        
-        $disk->deleteDirectory($tmp_path);
-        $disk->makeDirectory($tmp_path);
-    }    
+        if($uploads === null || ($uploads['batch'] !== $this->upload_batch)){
+            if($also_restart){
+                session(['uploads' => [
+                    'batch' => $this->upload_batch,
+                    'files' => []
+                ]]);                
+            }
+            return false;
+        }
+        return true;
+    }
 
-    // Store the uploaded files to temporary folder
-    // Fill the 'files' key with the basename of the file
+    // Store the uploaded files to temporary folder,
+    // Then fill the 'files' key with the basename of the file.
+    // Return the file's tmp url if the upload is success.
+    // Return false if the number of files allowed
+    // already reach max number.
+    // If max = 0, the number of files allowed is unlimited.
     public function storeToTmp($disk_name, $file, $max = 0){
         // Check the uploads batch, if not valid restart it
-        if(!$this->checkUploads()){
-            $this->restartUploads($disk_name);
-        }
+        $this->checkUploads(true);
 
         $disk = Storage::disk($disk_name);
         $tmp_path = 'tmp/'.$this->tmp_id;
         $file_name = $file->getClientOriginalName();
-        $uploads = session('uploads');     
-
+        $uploads = session('uploads');
+        
+        if(!isset( $uploads['files'][$disk_name] )){
+            $uploads['files'][$disk_name] = [];
+            $disk->deleteDirectory($tmp_path);
+            $disk->makeDirectory($tmp_path);
+        }
         if( $max !== 0 && count($uploads['files'][$disk_name]) > $max ){
             return false;
         }
@@ -86,13 +82,14 @@ class Dropzone
     // Each files is sorted from the earliest upload to the lastest
     public function getFromTmp($disk_name){
         $disk = Storage::disk($disk_name);
-        $fnames = session('uploads')['files'][$disk_name];
+        $uploads = session('uploads', null);
         $furls = [];
 
-        foreach($fnames as $fname){
-            $furls[] = $disk->url('tmp/'.$this->tmp_id.'/'.$fname);
-        };
-
+        if($uploads && isset( $uploads['files'][$disk_name] )){
+            foreach($uploads['files'][$disk_name] as $fname){
+                $furls[] = $disk->url('tmp/'.$this->tmp_id.'/'.$fname);
+            };            
+        }
         return $furls;
     }
 
@@ -102,11 +99,12 @@ class Dropzone
     // Return false if the upload batch is invalid
     public function deleteFromTmp($disk_name, $file_name){
         if($this->checkUploads()){
-            $disk = Storage::disk($disk_name);
-            $tmp_path = 'tmp/'.$this->tmp_id;
             $uploads = session('uploads');
-
+            
             if(in_array( $file_name, $uploads['files'][$disk_name] )){
+                $disk = Storage::disk($disk_name);
+                $tmp_path = 'tmp/'.$this->tmp_id;
+
                 unset($uploads['files'][$disk_name][
                     array_search($file_name, $uploads['files'][$disk_name])
                 ]);
@@ -127,12 +125,10 @@ class Dropzone
     // upload to the latest
     public function getForUpdate($disk_name, $resource_id){
         // Check the uploads batch, if false restart it
-        if(!$this->checkUploads()){
-            $this->restartUploads($disk_name);
-        }
+        $this->checkUploads(true);
 
         $disk = Storage::disk($disk_name);
-        $fpaths = $disk->allFiles($resource_id);
+        $fpaths = $disk->files($resource_id);
         $fpaths_with_ts = [];
         
         foreach($fpaths as $fpath){
@@ -141,16 +137,22 @@ class Dropzone
         ksort($fpaths_with_ts);
 
         $uploads = session('uploads');
+        $tmp_path = 'tmp/'.$this->tmp_id;
         $files_urls = [];
 
         foreach($fpaths_with_ts as $ts => $fpath){
+            if(!isset( $uploads['files'][$disk_name] )){
+                $uploads['files'][$disk_name] = [];
+                $disk->deleteDirectory($tmp_path);
+                $disk->makeDirectory($tmp_path);                
+            }            
             $uploads['files'][$disk_name][] = basename($fpath);
 
             $disk->copy(
                 $fpath,
-                'tmp/'.$this->tmp_id.'/'.basename($fpath)
+                $tmp_path.'/'.basename($fpath)
             );
-            $files_urls[] = $disk->url('tmp/'.$this->tmp_id.'/'.basename($fpath));
+            $files_urls[] = $disk->url($tmp_path.'/'.basename($fpath));
         }
 
         session(['uploads' => $uploads]);
@@ -164,20 +166,19 @@ class Dropzone
         $disk = Storage::disk($disk_name);
         $tmp_path = 'tmp/'.$this->tmp_id;
         $uploads = session('uploads');
-        $files = $uploads['files'][$disk_name];
+        $files_names = $uploads['files'][$disk_name];
         $files_urls = [];
 
         // Move the files in the temporary folder only if it's not empty
-        if(!empty($files)){
-            $disk->deleteDirectory($resource_id);
-            $disk->makeDirectory($resource_id);  
+        if(!empty($files_names)){
+            $disk->delete($disk->files($resource_id));
 
-            foreach($files as $file){
+            foreach($files_names as $file_name){
                 $disk->move(
-                    $tmp_path.'/'.$file,
-                    $resource_id.'/'.$file
+                    $tmp_path.'/'.$file_name,
+                    $resource_id.'/'.$file_name
                 );
-                $files_urls[] = $disk->url($resource_id.'/'.$file);
+                $files_urls[] = $disk->url($resource_id.'/'.$file_name);
             }
         }                        
 
