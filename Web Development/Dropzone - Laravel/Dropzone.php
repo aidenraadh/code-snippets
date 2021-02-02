@@ -11,10 +11,7 @@ class Dropzone
 
     public function __construct($tmp_id, $timestamp){
         $this->tmp_id = $tmp_id;
-        $this->upload_batch = (
-            is_int($timestamp) && $timestamp > 0 ?
-            $timestamp : time()
-        );
+        $this->upload_batch = (int)$timestamp;
     }
 
     // Check the uploads batch, if uploads batch doesnt valid,
@@ -26,11 +23,11 @@ class Dropzone
     //         'disk_name' => (arr)filenames,
     //         ...
     //     ]
-    // ];    
+    // ];
     public function checkUploads($also_restart = false){
         $uploads = session('uploads', null);
 
-        if($uploads === null || ($uploads['batch'] !== $this->upload_batch)){
+        if($uploads === null || ($uploads['batch'] !== $this->upload_batch || $this->upload_batch === 0)){
             if($also_restart){
                 session(['uploads' => [
                     'batch' => $this->upload_batch,
@@ -136,16 +133,15 @@ class Dropzone
         }
         ksort($fpaths_with_ts);
 
-        $uploads = session('uploads');
         $tmp_path = 'tmp/'.$this->tmp_id;
         $files_urls = [];
 
+        $uploads = session('uploads');
+        $uploads['files'][$disk_name] = [];
+        $disk->deleteDirectory($tmp_path);
+        $disk->makeDirectory($tmp_path);  
+
         foreach($fpaths_with_ts as $ts => $fpath){
-            if(!isset( $uploads['files'][$disk_name] )){
-                $uploads['files'][$disk_name] = [];
-                $disk->deleteDirectory($tmp_path);
-                $disk->makeDirectory($tmp_path);                
-            }            
             $uploads['files'][$disk_name][] = basename($fpath);
 
             $disk->copy(
@@ -169,10 +165,10 @@ class Dropzone
         $files_names = $uploads['files'][$disk_name];
         $files_urls = [];
 
+        $disk->delete($disk->files($resource_id));
+
         // Move the files in the temporary folder only if it's not empty
         if(!empty($files_names)){
-            $disk->delete($disk->files($resource_id));
-
             foreach($files_names as $file_name){
                 $disk->move(
                     $tmp_path.'/'.$file_name,
