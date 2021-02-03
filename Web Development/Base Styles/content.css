@@ -9,8 +9,9 @@ html{
 }
 
 body{
-  	-webkit-font-smoothing: antialiased;
-  	-moz-osx-font-smoothing: grayscale;	
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-size: 1.6rem;
 }
 
 code {
@@ -37,6 +38,10 @@ button{
 	cursor: pointer;
 	outline: none;
 	background-color: transparent;
+	font-size: inherit;
+	font-family: inherit;
+	font-weight: inherit;
+	color: inherit;
 }
 
 button:focus{
@@ -44,6 +49,10 @@ button:focus{
 }
 
 input, select, textarea{
+	font-size: inherit;
+	font-family: inherit;
+	font-weight: inherit;
+	color: inherit;	
 	outline: none;
 }
 

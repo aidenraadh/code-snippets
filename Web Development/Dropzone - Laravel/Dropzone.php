@@ -54,7 +54,7 @@ class Dropzone
         $file_name = $file->getClientOriginalName();
         $uploads = session('uploads');
         
-        if(!isset( $uploads['files'][$disk_name] )){
+        if(empty( $uploads['files'][$disk_name] )){
             $uploads['files'][$disk_name] = [];
             $disk->deleteDirectory($tmp_path);
             $disk->makeDirectory($tmp_path);
@@ -78,11 +78,14 @@ class Dropzone
     // Return an array of the files URLS.
     // Each files is sorted from the earliest upload to the lastest
     public function getFromTmp($disk_name){
+        if(!$this->checkUploads()){
+            return false;
+        }
         $disk = Storage::disk($disk_name);
-        $uploads = session('uploads', null);
+        $uploads = session('uploads');
         $furls = [];
 
-        if($uploads && isset( $uploads['files'][$disk_name] )){
+        if(!empty( $uploads['files'][$disk_name] )){
             foreach($uploads['files'][$disk_name] as $fname){
                 $furls[] = $disk->url('tmp/'.$this->tmp_id.'/'.$fname);
             };            
@@ -141,7 +144,7 @@ class Dropzone
         $disk->deleteDirectory($tmp_path);
         $disk->makeDirectory($tmp_path);  
 
-        foreach($fpaths_with_ts as $ts => $fpath){
+        foreach($fpaths_with_ts as $fpath){
             $uploads['files'][$disk_name][] = basename($fpath);
 
             $disk->copy(
