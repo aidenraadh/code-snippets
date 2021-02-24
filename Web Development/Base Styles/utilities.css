@@ -1,16 +1,21 @@
-/*
-<div class="flex-row|flex-col">
-	<div class="col-1|col-2|..."></div>
-	<div class="col-1|col-2|..."></div>
-	<!-- ... -->
-</div>
-*/
+.block{
+	display: block;
+}
+
+.inline{
+	display: inline;
+}
+
+.inline-block{
+	display: inline-block;
+}
 
 .flex-row{
 	display: flex;
 }
 
 .flex-row-rev{
+	display: flex;
 	flex-direction: row-reverse;
 }
 
@@ -22,6 +27,10 @@
 .flex-col-rev{
 	display: flex;
 	flex-direction: column-reverse;
+}
+
+.flex-wrap{
+	flex-wrap: wrap;
 }
 
 .content-start{
@@ -57,4 +66,20 @@
 	width: 1px; height: 1px;
 	overflow: hidden;
 	visibility: hidden;
+}
+
+.text-left{
+	text-align: left;
+}
+
+.text-center{
+	text-align: center;
+}
+
+.text-right{
+	text-align: right;
+}
+
+.text-justify{
+	text-align: justify;
 }

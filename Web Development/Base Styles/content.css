@@ -1,4 +1,4 @@
-*, *::after, *::before{
+*, *::before, *::after{
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
@@ -6,17 +6,18 @@
 
 html{
 	font-size: 10px;
+	scroll-behavior: smooth;
 }
 
 body{
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	font-size: 1.6rem;
+	min-height: 100vh;
+  	-webkit-font-smoothing: antialiased;
+  	-moz-osx-font-smoothing: grayscale;	
+  	font-size: 1.6rem;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 h1,h2,h3,h4,h5,h6,th{
@@ -30,6 +31,8 @@ address{
 a{
 	text-decoration: none;
 	cursor: pointer;
+	font-family: inherit;
+	font-size: inherit;
 	color: inherit;
 }
 
@@ -38,22 +41,27 @@ button{
 	cursor: pointer;
 	outline: none;
 	background-color: transparent;
-	font-size: inherit;
 	font-family: inherit;
-	font-weight: inherit;
+	font-size: inherit;
 	color: inherit;
+	appearance: none;
 }
 
 button:focus{
 	outline: none;
 }
 
+button:disabled{
+	cursor: not-allowed;
+}
+
 input, select, textarea{
-	font-size: inherit;
 	font-family: inherit;
 	font-weight: inherit;
-	color: inherit;	
+	font-size: inherit;
+	color: inherit;
 	outline: none;
+	appearance: none;
 }
 
 input:focus, select:focus {
