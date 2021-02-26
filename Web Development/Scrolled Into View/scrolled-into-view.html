@@ -81,8 +81,16 @@
 
 <body>
 
-<div id="test" style="height: 200px; background-color: red; margin-top: 1000px;"></div>
-<div id="hehe" style="height: 200px; background-color: blue; margin-top: 1000px;"></div>
+<div id="el-1" style="display: flex; flex-direction: column;
+align-items: center; justify-content: center; height: 200px;
+background-color: red; margin-top: 500px;">
+    <h2>This is El - 1</h2>
+</div>
+<div id="el-2" style="display: flex; flex-direction: column;
+align-items: center; justify-content: center; height: 200px;
+background-color: blue; margin-top: 500px;">
+    <h2>This is El - 1</h2>
+</div>
 
 <script>
 
@@ -93,13 +101,13 @@ class ScrolledIntoView{
             const elTop = el.offset().top;
             const elHeight = el.height();
 
-            const viewed_pos = (component.viewed_pos ? 
-                elTop + Math.round( (component.viewed_pos/100)*elHeight )
+            const inview_pos = (component.inview_pos ? 
+                elTop + Math.round( (component.inview_pos/100)*elHeight )
             : elTop);
 
             return {
-                viewed_pos: viewed_pos,
-                viewed_callback: component.viewed_callback,
+                inview_pos: inview_pos,
+                inview_callback: component.inview_callback,
                 is_viewed: false,
                 infnt_call: (component.infnt_call ? component.infnt_call : false),
             };
@@ -110,13 +118,14 @@ class ScrolledIntoView{
     }
 
     checkScrollPos(){
-        const docViewBottom = $(window).scrollTop() + window.innerHeight;
+        const docViewTop = $(window).scrollTop();
+        const docViewBottom = docViewTop + window.innerHeight;
 
-        this.components.forEach((component) => {              
-            if(docViewBottom >= component.viewed_pos){
+        this.components.forEach((component) => {
+            if(component.inview_pos >= docViewTop && component.inview_pos <= docViewBottom){
                 if(!component.is_viewed || component.infnt_call){
                     component.is_viewed = true;
-                    component.viewed_callback();
+                    component.inview_callback();
                 }
             }
         });
@@ -134,13 +143,13 @@ new ScrolledIntoView([
     {
         el: 'element_selector',
         // The function that will be called if the element is in the view
-        viewed_callback: () => { },
+        inview_callback: () => { },
         // Optional, integer between 0 - 100, default 0
         // This prop check the if position of the element in the document
         // is in the view
-        viewed_pos: 0,
+        inview_pos: 0,
         // Optional, boolean value
-        // If true, call the viewed_callback again even the el has already in view
+        // If true, call the inview_callback again even the el has already in view
         // false otherwise    
         infnt_call: false
     },
@@ -148,8 +157,8 @@ new ScrolledIntoView([
 */
 
 new ScrolledIntoView([
-    {el: '#test', viewed_callback: () => {console.log('haha')}},
-    {el: '#hehe', viewed_callback: () => {console.log('hehe')}, infnt_call: true},
+    {el: '#el-1', inview_callback: () => {console.log('El - 1 is in view')}},
+    {el: '#el-2', inview_callback: () => {console.log('El - 2 is in view')},},
 ]).init();
 
 </script>
