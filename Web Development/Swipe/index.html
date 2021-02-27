@@ -1,129 +1,160 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>test</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
+	<title>Swipe</title>
+	<style>
+	*, *::before, *::after{
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+	html{
+		font-size: 10px;
+		scroll-behavior: smooth;
+	}
+	body{
+		min-height: 100vh;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;	
+		font-size: 1.6rem;
+	}
+	code {
+		font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+	}
+	h1,h2,h3,h4,h5,h6,th{
+		font-weight: normal;
+	}
+	address{
+		font-style: normal;
+	}
+	a{
+		text-decoration: none;
+		cursor: pointer;
+		font-family: inherit;
+		font-size: inherit;
+		color: inherit;
+	}
+	button{
+		border: none;
+		cursor: pointer;
+		outline: none;
+		background-color: transparent;
+		font-family: inherit;
+		font-size: inherit;
+		color: inherit;
+		appearance: none;
+	}
+	button:focus{
+		outline: none;
+	}
+	button:disabled{
+		cursor: not-allowed;
+	}
+	input, select, textarea{
+		font-family: inherit;
+		font-weight: inherit;
+		font-size: inherit;
+		color: inherit;
+		outline: none;
+		appearance: none;
+	}
+	input:focus, select:focus {
+		outline-offset: 0;
+	}        
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+
 <body>
 
-<div id="test" style="background-color: red; width: 200px; height: 200px; margin-left: 200px;"></div>
-<div id="text"></div>
-<div id="rotateX"></div>
-<div id="rotateY"></div>
+<div id="test" style="background-color: red; width: 200px; height: 200px; margin: 200px 0 0 200px;"></div>
+
+<div style="display: flex;">
+	<div id="touchstart" style="background-color: teal; color: white;"></div>
+	<div id="touchmove" style="background-color: purple; color: white;"></div>
+	<div id="touchend" style="background-color: cyan; color: white;"></div>
+</div>
 <script type="text/javascript">
-
+console.log( $('#test').offset() );
 class Swipe{
-	constructor(elID, minDist){
-		this.touchArea = document.getElementById(elID);
-		this.orgCoor = null;
-		this.surfaceEdge = {
-			X: [null, null],
-			Y: [null, null]
-		};
+	constructor(el){
+		this.touchArea = $(el);
+		this.touchAreaDim = (() => {
+			const offset = this.touchArea.offset();
+			return {
+				offsetTop: offset.top,
+				offsetLeft: offset.left,
+				width: this.touchArea.outerWidth(),
+				height: this.touchArea.outerHeight(),
+			};
+		})();
+		this.startPoint = {X: null, Y: null};
 
-		this.minDist = (minDist === undefined ? 25 : minDist);
-
-		this.validateEndTouch = this.validateEndTouch.bind(this);
-		this.validateDistance = this.validateDistance.bind(this);
-		this.detectSwipe = this.detectSwipe.bind(this);
-		this.startSwipe = this.startSwipe.bind(this);
-		this.endSwipe = this.endSwipe.bind(this);
-		this.swipe = this.swipe.bind(this);
+		this.generateSwipeDir = this.generateSwipeDir.bind(this);
+		this.init = this.init.bind(this);
 	}
 
-	validateEndTouch(X, Y){
-		if((X === this.orgCoor[0]) && (Y === this.orgCoor[1])){
-			return false;
+	generateSwipeDir(X, Y){
+		let dir = {X: null, Y: null};
+
+		if(X > this.touchAreaDim.offsetLeft+this.touchAreaDim.width){
+			X = this.touchAreaDim.offsetLeft+this.touchAreaDim.width;
 		}
-		if( !(X > this.surfaceEdge.X[0] && X < this.surfaceEdge.X[1]) ){
-			return false;
+		else if(X < this.touchAreaDim.offsetLeft){
+			X = this.touchAreaDim.offsetLeft;
 		}
-		if( !(Y > this.surfaceEdge.Y[0] && Y < this.surfaceEdge.Y[1]) ){
-			return false;
+
+		if(Y > this.touchAreaDim.offsetTop+this.touchAreaDim.height){
+			Y = this.touchAreaDim.offsetTop+this.touchAreaDim.height;
 		}
-		return true;		
+		else if(Y < this.touchAreaDim.offsetTop){
+			Y = this.touchAreaDim.offsetTop;
+		}
+
+		dir.X = (X - this.startPoint.X) / this.touchAreaDim.width * 100;
+		dir.Y = (Y - this.startPoint.Y) / this.touchAreaDim.height * 100;
+		
+		return dir;
 	}
 
-	validateDistance(X, Y){
-		const dist = Math.sqrt(
-			Math.pow(X - this.orgCoor[0], 2) + Math.pow(Y - this.orgCoor[1], 2)
-		);
-
-		return (dist >= this.minDist);
-	}
-
-	detectSwipe(X, Y){
-
-		const angle = Math.atan2(Y - this.orgCoor[1], X - this.orgCoor[0]) * 180 / Math.PI;
-
-		if(angle > -135 && angle < -45){
-			return 'top';
-		}
-		else if(angle > -45 && angle <  45){
-			return 'right';
-		}
-		else if(angle > 45 && angle <  135){
-			return 'bottom';
-		}
-		else if(angle > 135 || angle <  -135){
-			return 'left';
-		}
-		else{
-			return 'none';
-		}
-
-		return angle;
-	}
-
-	startSwipe(X, Y){
-		const rect = this.touchArea.getBoundingClientRect();
-		this.surfaceEdge.X = [
-			rect.left, rect.left + rect.width
-		];
-		this.surfaceEdge.Y = [
-			rect.top, rect.top + rect.height
-		];
-
-		this.orgCoor = [X, Y];
-		console.log(this.surfaceEdge);
-	}
-
-	endSwipe(X, Y){
-		if(!this.validateEndTouch(X, Y)){
-			return 'none';
-		}
-		if(!this.validateDistance(X, Y)){
-			return 'none';
-		}		
-		return this.detectSwipe(X, Y);
-	}
-
-	swipe(callback){
-		const startSwipe = this.startSwipe;
-		const endSwipe = this.endSwipe;
-
-		this.touchArea.addEventListener('touchstart', function(e){
+	init(callback){
+		this.touchArea.bind('touchstart', (e) => {
 			e.preventDefault();
 			e.stopPropagation();
-			startSwipe(
-				e.changedTouches[0].clientX,
-				e.changedTouches[0].clientY
-			);
+			
+			this.startPoint.X = e.changedTouches[0].clientX;
+			this.startPoint.Y = e.changedTouches[0].clientY;
 		});
-
-		this.touchArea.addEventListener('touchend', function(e){
+		
+		this.touchArea.bind('touchmove', (e) => {
 			e.preventDefault();
 			e.stopPropagation();
 			callback(
-				endSwipe(e.changedTouches[0].clientX,e.changedTouches[0].clientY)
-			);
-		});		
+				this.generateSwipeDir(
+					e.changedTouches[0].clientX,
+					e.changedTouches[0].clientY
+				)
+			);			
+		});
+
+		this.touchArea.bind('touchend', (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			callback(
+				this.generateSwipeDir(
+					e.changedTouches[0].clientX,
+					e.changedTouches[0].clientY
+				)
+			);			
+		});
 	}
 }
 
-const x = new Swipe('test');
-
-x.swipe(function(swipeDir){
-	document.getElementById('text').innerHTML = swipeDir;
+new Swipe('#test').init((swipeDir) => {
+	console.log(swipeDir);
 });
 
 </script>
