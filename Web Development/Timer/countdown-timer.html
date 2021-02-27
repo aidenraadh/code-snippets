@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
+    <title>Countdown Timer</title>
+    <style>
+    *, *::before, *::after{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html{
+        font-size: 10px;
+        scroll-behavior: smooth;
+    }
+
+    body{
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;	
+        font-size: 1.6rem;
+    }
+
+    code {
+        font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    }
+
+    h1,h2,h3,h4,h5,h6,th{
+        font-weight: normal;
+    }
+
+    address{
+        font-style: normal;
+    }
+
+    a{
+        text-decoration: none;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: inherit;
+        color: inherit;
+    }
+
+    button{
+        border: none;
+        cursor: pointer;
+        outline: none;
+        background-color: transparent;
+        font-family: inherit;
+        font-size: inherit;
+        color: inherit;
+        appearance: none;
+    }
+
+    button:focus{
+        outline: none;
+    }
+
+    button:disabled{
+        cursor: not-allowed;
+    }
+
+    input, select, textarea{
+        font-family: inherit;
+        font-weight: inherit;
+        font-size: inherit;
+        color: inherit;
+        outline: none;
+        appearance: none;
+    }
+
+    input:focus, select:focus {
+        outline-offset: 0;
+    }        
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+<div id="display">
+    <span style="display: inline-block; padding: 1rem;">
+        <span id="days"></span>
+        <span>d</span>
+    </span>
+    <span style="display: inline-block; padding: 1rem;">
+        <span id="hours"></span>
+        <span>h</span>
+    </span>
+    <span style="display: inline-block; padding: 1rem;">
+        <span id="minutes"></span>
+        <span>m</span>
+    </span>
+    <span style="display: inline-block; padding: 1rem;">
+        <span id="seconds"></span>
+        <span>s</span>
+    </span>            
+</div>
+
+<script>
+
+class CountdownTimer{
+    constructor(countdown_date, display){
+        console.log('asd');
+        this.countdown_date = new Date(countdown_date).getTime();
+        const displayEl = $(display);
+
+        this.days_display = displayEl.find('#days');
+        this.hours_display = displayEl.find('#hours');
+        this.minutes_display = displayEl.find('#minutes');
+        this.seconds_display = displayEl.find('#seconds');
+
+        this.init = this.init.bind(this);
+        this.displayTimer = this.displayTimer.bind(this);
+    }
+
+    displayTimer(days,hours,minutes,seconds){
+        this.days_display.html(days);
+        this.hours_display.html(hours);
+        this.minutes_display.html(minutes);
+        this.seconds_display.html(seconds);
+    }
+
+    init(){
+        if( this.countdown_date - (new Date().getTime()) < 0 ){
+            this.displayTimer('--','--','--','--');
+        }
+        else{
+            // Update the count down every 1 second
+            const interval = setInterval(() => {
+                // Get today's date and time
+                const now = new Date().getTime();
+                // Find the distance between now and the count down date
+                const distance = this.countdown_date - now;
+                // Output the result in the display element
+                this.displayTimer(
+                    Math.floor(distance / (1000 * 60 * 60 * 24)),
+                    Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+                    Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+                    Math.floor((distance % (1000 * 60)) / 1000)
+                );
+                // If the count down is over, clear the interval
+                if (distance < 0){
+                    this.displayTimer('--','--','--','--');
+                    clearInterval(interval);
+                }
+            }, 1000);
+        }
+    }
+}
+
+new CountdownTimer('Dec 28, 2021 09:00:00', '#display').init();
+
+</script>
+</body>
+
+</html>
