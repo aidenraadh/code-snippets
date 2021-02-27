@@ -70,13 +70,18 @@
 
 <body>
 
-<div id="test" style="background-color: red; width: 200px; height: 200px; margin: 200px 0 0 200px;"></div>
-
-<div style="display: flex;">
-	<div id="touchstart" style="background-color: teal; color: white;"></div>
-	<div id="touchmove" style="background-color: purple; color: white;"></div>
-	<div id="touchend" style="background-color: cyan; color: white;"></div>
+<div id="output" style="display: flex; flex-direction: column; 
+justify-content: center; text-align: center; margin-top: 10rem;">
+	<h1>
+		<span id="h-swipe"></span> & 
+		<span id="v-swipe"></span>
+	</h1>
+	<div id="coor"></div>
 </div>
+
+<div id="toucharea" style="background-color: red; width: 40vw; 
+height: 20vh; margin: 10rem auto;"></div>
+
 <script type="text/javascript">
 console.log( $('#test').offset() );
 class Swipe{
@@ -153,8 +158,18 @@ class Swipe{
 	}
 }
 
-new Swipe('#test').init((swipeDir) => {
-	console.log(swipeDir);
+new Swipe('#toucharea').init((swipeDir) => {
+	let h_swipe = 'Swipe Right';
+	if(swipeDir.X < 0) h_swipe = 'Swipe Left';
+
+	let v_swipe = 'Swipe Down';
+	if(swipeDir.Y < 0) v_swipe = 'Swipe Up';
+	
+	const coor = JSON.stringify(swipeDir);
+
+	$('#h-swipe').html(h_swipe);
+	$('#v-swipe').html(v_swipe)
+	$('#coor').html(coor);
 });
 
 </script>
