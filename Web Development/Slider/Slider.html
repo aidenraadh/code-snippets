@@ -1,52 +1,86 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Slider</title>
-<style>
-*, *::after, *::before{
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-
-html{
-	font-size: 10px;
-}
-
-body{
-    font-size: 1.6rem;
-  	-webkit-font-smoothing: antialiased;
-  	-moz-osx-font-smoothing: grayscale;	
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-.slider{
-    display: block;
-    overflow-x: hidden;
-}
-
-.slider-wrapper{
-    display: flex;
-    width: 100%;
-    overflow-x: visible;
-    transition-property: transform;
-    transition-duration: 0ms;
-}
-
-.slider-item{
-    flex-shrink: 0;
-    width: 100%;
-}
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
+	<title>Slider</title>
+	<style>
+	*, *::before, *::after{
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+	html{
+		font-size: 10px;
+		scroll-behavior: smooth;
+	}
+	body{
+		min-height: 100vh;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;	
+		font-size: 1.6rem;
+	}
+	code {
+		font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+	}
+	h1,h2,h3,h4,h5,h6,th{
+		font-weight: normal;
+	}
+	address{
+		font-style: normal;
+	}
+	a{
+		text-decoration: none;
+		cursor: pointer;
+		font-family: inherit;
+		font-size: inherit;
+		color: inherit;
+	}
+	button{
+		border: none;
+		cursor: pointer;
+		outline: none;
+		background-color: transparent;
+		font-family: inherit;
+		font-size: inherit;
+		color: inherit;
+		appearance: none;
+	}
+	button:focus{
+		outline: none;
+	}
+	button:disabled{
+		cursor: not-allowed;
+	}
+	input, select, textarea{
+		font-family: inherit;
+		font-weight: inherit;
+		font-size: inherit;
+		color: inherit;
+		outline: none;
+		appearance: none;
+	}
+	input:focus, select:focus {
+		outline-offset: 0;
+	}
+    .slider{
+        display: block;
+        overflow-x: hidden;
+    }
+    .slider-wrapper{
+        display: flex;
+        width: 100%;
+        overflow-x: visible;
+        transition-property: transform;
+        transition-duration: 0ms;
+    }
+    .slider-item{
+        flex-shrink: 0;
+        width: 100%;
+    }    
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -67,86 +101,131 @@ code {
         </div>                        
     </div>
 </div>
-
+    
 <button type="button" id="prev">prev</button>
 <button type="button" id="next">next</button>
 
-<script defer>
+<script type="text/javascript">
 
 class Slider{
-    constructor(slider_id, slide_dur = 300){
-        this.slider = $('#'+slider_id);
-        
-        if(this.slider.length){
-            this.wrapper = this.slider.children();
-            this.items_l = this.wrapper.children().length;
-            this.slide_dur = slide_dur+'ms';
-            this.current_item = 1;
-            this.is_animating = false;
+    constructor(slider_sel, slide_dur = 300){
+        this.slider = $(slider_sel);
+        this.wrapper = this.slider.children();
+        this.items_l = this.wrapper.children().length;
+        this.slide_dur = slide_dur+'ms';
+        this.current_item = 1;
+        this.is_animating = false;
 
-            this.init = this.init.bind(this);
-            this.prev = this.prev.bind(this);
-            this.next = this.next.bind(this);
-            this.slide = this.slide.bind(this);
-        }
+        this.touchAreaDim = {
+            offsetLeft: this.slider.offset().left,
+            width: this.slider.outerWidth()
+        };
+        this.touchStartingPoint = null;      
+
+        this.init = this.init.bind(this);
+        this.prev = this.prev.bind(this);
+        this.next = this.next.bind(this);
+        this.slide = this.slide.bind(this);
+        this.swipe = this.swipe.bind(this);  
     }
-
     init(prev_btn, next_btn){
-        if(this.items_l > 1 && this.slider.length){
-            const cloned_first = this.wrapper.children().first().clone();
-            cloned_first.attr('aria-hidden', true);
+        if(this.items_l > 1){
+            const first_clone = this.wrapper.children().first().clone();
+            const first_clone_pos = 0;
+            first_clone.attr('aria-hidden', true);
     
-            const cloned_last = this.wrapper.children().last().clone();
-            cloned_last.attr('aria-hidden', true);
+            const last_clone = this.wrapper.children().last().clone();
+            const last_clone_pos = this.items_l + 1;
+            last_clone.attr('aria-hidden', true);
             
-            this.wrapper.prepend(cloned_last);
-            this.wrapper.append(cloned_first);
+            this.wrapper.prepend(last_clone);
+            this.wrapper.append(first_clone);
             this.wrapper.css('transform', 'translateX(-100%)');
-            this.wrapper.on('transitionend webkitTransitionEnd mozTransitionEnd oTransitionEnd', () => {
-                if(this.current_item === 0 || this.current_item === this.items_l + 1){
-                    switch(this.current_item){
-                        case 0: this.current_item = this.items_l; break;
-                        case (this.items_l+1): this.current_item = 1; break;
-                        default: null;        
+
+            this.wrapper.on('transitionend webkitTransitionEnd mozTransitionEnd oTransitionEnd',
+                () => {
+                    if(this.current_item === first_clone_pos || this.current_item === last_clone_pos){
+                        switch(this.current_item){
+                            case first_clone_pos: this.current_item = this.items_l; break;
+                            case last_clone_pos: this.current_item = 1; break;
+                            default: null;        
+                        }
+                        this.slide(-100*this.current_item, '0ms');              
                     }
-                    this.wrapper.css({
-                        transitionDuration: '0ms',
-                        transform: 'translateX('+(-1*this.current_item)+'00%)',
-                    });                
+                    this.is_animating = false
                 }
-                this.is_animating = false
+            );
+            this.slider.bind('touchstart', (e) => {
+			    e.preventDefault();
+			    e.stopPropagation();                
+                this.touchStartingPoint = e.changedTouches[0].clientX;
+            });
+            this.slider.bind('touchmove', (e) => {
+                e.preventDefault();
+			    e.stopPropagation();
+                this.swipe(e.changedTouches[0].clientX, false);
+            });
+            this.slider.bind('touchend', (e) => {
+			    e.preventDefault();
+			    e.stopPropagation();
+                this.swipe(e.changedTouches[0].clientX, true);     
             });
             $(prev_btn).click(() => { this.prev(); });
             $(next_btn).click(() => { this.next(); });
         }
     }
-
     next(){
         if(!this.is_animating){
+            this.is_animating = true;
             ++this.current_item;
-            this.slide(-1 * this.current_item);
+            this.slide(-100 * this.current_item, this.slide_dur);
         }
     }
     prev(){
         if(!this.is_animating){
+            this.is_animating = true;
             --this.current_item;
-            this.slide(-1 * this.current_item);
+            this.slide(-100 * this.current_item, this.slide_dur);
         }
     }
-    slide(pos){
-        this.is_animating = true;
+    slide(pos, dur){
         this.wrapper.css({
-            transitionDuration: this.slide_dur,
-            transform: 'translateX('+pos+'00%)',
+            transitionDuration: dur,
+            transform: 'translateX('+pos+'%)',
         });
+    }
+    swipe(x, touchend){
+        if(!this.is_animating){
+            if(x > this.touchAreaDim.offsetLeft+this.touchAreaDim.width){
+                x = this.touchAreaDim.offsetLeft+this.touchAreaDim.width;
+            }
+            else if(x < this.touchAreaDim.offsetLeft){
+                x = this.touchAreaDim.offsetLeft;
+            }
+            const dist = (x - this.touchStartingPoint) / this.touchAreaDim.width * 100;
+
+            this.slide((-100*this.current_item)+dist, this.slide_dur);
+            // When the finger is lifted
+            if(touchend){
+                // When the wrapper is slided from 30% the latest origin                
+                if(Math.abs(dist) >= 30){
+                    // The slider is swiped left, slide to the next item
+                    if(dist < 0) this.next();
+                    // The slider is swiped right, slide to the prev item
+                    else this.prev();
+                }
+                else{
+                    this.slide((-100*this.current_item), this.slide_dur);
+                }
+            }            
+        }
     }
 }
 
-new Slider('testslider').init(
+new Slider('#testslider').init(
     '#prev', '#next'
 );
 
 </script>
 </body>
-
 </html>

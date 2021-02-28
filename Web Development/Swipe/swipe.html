@@ -76,6 +76,7 @@ justify-content: center; text-align: center; margin-top: 10rem;">
 		<span id="h-swipe"></span> & 
 		<span id="v-swipe"></span>
 	</h1>
+	<span id="touchend"></span>
 	<div id="coor"></div>
 </div>
 
@@ -83,7 +84,7 @@ justify-content: center; text-align: center; margin-top: 10rem;">
 height: 20vh; margin: 10rem auto;"></div>
 
 <script type="text/javascript">
-console.log( $('#test').offset() );
+
 class Swipe{
 	constructor(el){
 		this.touchArea = $(el);
@@ -96,31 +97,31 @@ class Swipe{
 				height: this.touchArea.outerHeight(),
 			};
 		})();
-		this.startPoint = {X: null, Y: null};
+		this.startPoint = {x: null, y: null};
 
 		this.generateSwipeDir = this.generateSwipeDir.bind(this);
 		this.init = this.init.bind(this);
 	}
 
-	generateSwipeDir(X, Y){
-		let dir = {X: null, Y: null};
+	generateSwipeDir(x, y, touchend){
+		let dir = {x: null, y: null};
 
-		if(X > this.touchAreaDim.offsetLeft+this.touchAreaDim.width){
-			X = this.touchAreaDim.offsetLeft+this.touchAreaDim.width;
+		if(x > this.touchAreaDim.offsetLeft+this.touchAreaDim.width){
+			x = this.touchAreaDim.offsetLeft+this.touchAreaDim.width;
 		}
-		else if(X < this.touchAreaDim.offsetLeft){
-			X = this.touchAreaDim.offsetLeft;
-		}
-
-		if(Y > this.touchAreaDim.offsetTop+this.touchAreaDim.height){
-			Y = this.touchAreaDim.offsetTop+this.touchAreaDim.height;
-		}
-		else if(Y < this.touchAreaDim.offsetTop){
-			Y = this.touchAreaDim.offsetTop;
+		else if(x < this.touchAreaDim.offsetLeft){
+			x = this.touchAreaDim.offsetLeft;
 		}
 
-		dir.X = (X - this.startPoint.X) / this.touchAreaDim.width * 100;
-		dir.Y = (Y - this.startPoint.Y) / this.touchAreaDim.height * 100;
+		if(y > this.touchAreaDim.offsetTop+this.touchAreaDim.height){
+			y = this.touchAreaDim.offsetTop+this.touchAreaDim.height;
+		}
+		else if(y < this.touchAreaDim.offsetTop){
+			y = this.touchAreaDim.offsetTop;
+		}
+
+		dir.x = (x - this.startPoint.x) / this.touchAreaDim.width * 100;
+		dir.y = (y - this.startPoint.y) / this.touchAreaDim.height * 100;
 		
 		return dir;
 	}
@@ -130,8 +131,8 @@ class Swipe{
 			e.preventDefault();
 			e.stopPropagation();
 			
-			this.startPoint.X = e.changedTouches[0].clientX;
-			this.startPoint.Y = e.changedTouches[0].clientY;
+			this.startPoint.x = e.changedTouches[0].clientX;
+			this.startPoint.y = e.changedTouches[0].clientY;
 		});
 		
 		this.touchArea.bind('touchmove', (e) => {
@@ -140,8 +141,9 @@ class Swipe{
 			callback(
 				this.generateSwipeDir(
 					e.changedTouches[0].clientX,
-					e.changedTouches[0].clientY
-				)
+					e.changedTouches[0].clientY,
+				),
+				false
 			);			
 		});
 
@@ -151,25 +153,42 @@ class Swipe{
 			callback(
 				this.generateSwipeDir(
 					e.changedTouches[0].clientX,
-					e.changedTouches[0].clientY
-				)
+					e.changedTouches[0].clientY,
+				),
+				true
 			);			
 		});
 	}
 }
 
-new Swipe('#toucharea').init((swipeDir) => {
+/*
+EXAMPLE:
+
+new Swipe('elselector').init(callback);
+
+// The callback must have 1 parameter to retrieve
+// the swipe direction and touchend status
+// Swipe direction structure:
+// {
+// 	x: (int) // Positive means the toucharea is swiped right, negative otherwise
+// 	y: (int) // Positive means the toucharea is swiped down, negative otherwise
+// }
+// touchend: (bool) // true means the finger is lifted up, false means the finger is still swiping
+*/
+
+new Swipe('#toucharea').init((swipeDir, touchend) => {
 	let h_swipe = 'Swipe Right';
-	if(swipeDir.X < 0) h_swipe = 'Swipe Left';
+	if(swipeDir.x < 0) h_swipe = 'Swipe Left';
 
 	let v_swipe = 'Swipe Down';
-	if(swipeDir.Y < 0) v_swipe = 'Swipe Up';
+	if(swipeDir.y < 0) v_swipe = 'Swipe Up';
 	
-	const coor = JSON.stringify(swipeDir);
+	const coor = JSON.stringify(swipeDir, touchend);
 
 	$('#h-swipe').html(h_swipe);
 	$('#v-swipe').html(v_swipe)
 	$('#coor').html(coor);
+	$('#touchend').html((touchend ? 'Finger is lifted' : 'Finger is swiping'));
 });
 
 </script>
