@@ -71,7 +71,7 @@
     .fading-slider .fading-slider-item{
         width: 100%;
         flex-shrink: 0;
-        transition-property: transform, opacity;
+        transition-property: opacity;
     }
 	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -100,42 +100,94 @@
 <script type="text/javascript">
 
 class FadingSlider{
-    constructor(slider_sel, slide_dur = 300){
-        this.slider = $(slider_sel);
+    constructor(slider, settings = {}){
+        this.slider = $(slider);
         this.items = this.slider.children().map((idx, item) => {
             $(item).css({
                 zIndex: (idx === 0 ? 1 : 0), opacity: (idx === 0 ? 1 : 0),
                 transform: 'translateX('+(-100*idx)+'%)',
-                transitionDuration: '0s, 1s',
+                transitionDuration: (settings.fadeDur ? settings.fadeDur : 300)+'ms',
             });            
             return $(item);
         });
+
         this.currentItem = 0;
+		this.loopSpeed = (settings.loopSpeed ? settings.loopSpeed : null);
+		this.pauseOnHover = (settings.pauseOnHover ? settings.pauseOnHover : false);
+		this.interval_id = null;
         this.isAnimating = false;
 
-        setInterval(() => {
-            if(!this.isAnimating){
-                this.items[this.currentItem].css({
-                    zIndex: 0, opacity: 0,
-                });
-                 this.currentItem = (this.currentItem + 1 < this.items.length ?
-                    this.currentItem + 1 : 0
-                );
-                this.items[this.currentItem].css({
-                    zIndex: 1, opacity: 1,
-                });
-                this.isAnimating = true;
-            }           
-        }, 1400);
+		this.changeItem = this.changeItem.bind(this);
+		this.prev = this.prev.bind(this);
+		this.next = this.next.bind(this);
+		this.startLoop = this.startLoop.bind(this);
+		this.stopLoop = this.stopLoop.bind(this);
+		this.init = this.init.bind(this);       
+    }
+
+	changeItem(pos, stopLoop = true){
+		if(!this.isAnimating){
+			if(pos === this.items.length) pos = 0;
+			else if(pos === -1) pos = this.items.length - 1;
+
+			this.items[this.currentItem].css({
+				zIndex: 0, opacity: 0,
+			});
+			this.items[pos].css({
+				zIndex: 1, opacity: 1,
+			});
+
+			if(stopLoop) this.stopLoop();
+			this.currentItem = pos;
+			this.isAnimating = true;
+		}		
+	}	
+
+	prev(){
+		this.changeItem(this.currentItem - 1); 		
+	}	
+
+	next(){
+		this.changeItem(this.currentItem + 1);		
+	}
+
+	startLoop(){
+        this.interval_id = setInterval(() => {
+			this.changeItem(this.currentItem + 1, false)
+        }, this.loopSpeed);
+	}
+
+	stopLoop(){
+		clearInterval(this.interval_id);
+		this.interval_id = null;
+	}
+
+	init(prevBtn, nextBtn){
 
         this.slider.children().on('transitionend', () => {
             this.isAnimating = false;
-        });        
-    }
+			if(this.loopSpeed !== null && this.interval_id == null) this.startLoop();
+        });
+
+		if(this.loopSpeed !== null){
+			if(this.pauseOnHover){
+				this.slider.mouseenter(() => {this.stopLoop()});
+				this.slider.mouseleave(() => {this.startLoop()});
+			}
+			this.startLoop();
+		}
+
+		$(prevBtn).click(() => { this.prev() });
+		$(nextBtn).click(() => { this.next() });
+
+	}
 
 }
 
-new FadingSlider('#testslider');
+new FadingSlider('#testslider', {
+	fadeDur: 500,
+})
+.init('#prev', '#next');
 
 
 </script>
