@@ -20,7 +20,8 @@ export const errorFieldsReducer = (state: any, action: ActionType) => {
                     const errMsg = action.payload[field]
                     if(errMsg){
                         errors[field].msg = (
-                            errors[field].label ? errMsg.replace(field, errors[field].label) : errMsg
+                            errors[field].label && field !== '_global' ? 
+                            errMsg.replace(field, errors[field].label) : errMsg
                         )
                     }
                 }
