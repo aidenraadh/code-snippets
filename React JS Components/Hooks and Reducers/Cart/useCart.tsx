@@ -1,6 +1,6 @@
 import { useReducer, useMemo } from "react"
 
-import { cartReducer, ACTIONS, InitialStateType, getLastCart } from "./cartReducer"
+import { cartReducer, ACTIONS, StateType, getLastCart } from "./cartReducer"
 
 export default function useCart(){
     const [cart, dispatchCart] = useReducer(cartReducer, getLastCart())
@@ -28,7 +28,7 @@ export default function useCart(){
 }
 
 type cartActionsType = {
-    update: (items: InitialStateType['items']) => void
+    update: (items: StateType['items']) => void
     increase: (itemId: string) => void
     decrease: (itemId: string) => void
     empty: () => void

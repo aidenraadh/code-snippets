@@ -2,14 +2,14 @@ type ActionType = {
     type: string
     payload?: {[key: string]: any}
 }
-export interface InitialStateType{
+export interface StateType{
     posts: any[],
     page: number,
     totalPosts?: number,
     loadSize: number,
     canLoadMore: boolean
 }
-export const INITIAL_STATE: InitialStateType = {
+export const INITIAL_STATE: StateType = {
     posts: [],
     page: 1,
     totalPosts: undefined,

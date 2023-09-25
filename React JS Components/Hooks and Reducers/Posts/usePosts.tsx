@@ -1,6 +1,6 @@
 import { useReducer, useMemo } from "react"
 
-import { InitialStateType, INITIAL_STATE, ACTIONS, postReducer } from "./postReducer"
+import { StateType, INITIAL_STATE, ACTIONS, postReducer } from "./postReducer"
 
 export default function usePosts(args: ArgsType): returns{
     const [postsData, dispatchPosts] = useReducer(postReducer, {
@@ -32,20 +32,20 @@ export default function usePosts(args: ArgsType): returns{
     ]
 }
 interface ArgsType{
-    posts: InitialStateType['posts']
-    page?: InitialStateType['page']
-    totalPosts?: InitialStateType['totalPosts']
-    loadSize?: InitialStateType['loadSize']
+    posts: StateType['posts']
+    page?: StateType['page']
+    totalPosts?: StateType['totalPosts']
+    loadSize?: StateType['loadSize']
 }
 type actionsType = {
     refresh: (refreshed: {
-        posts: InitialStateType['posts'],
-        page?: InitialStateType['page'],
-        totalPosts?: InitialStateType['totalPosts']          
+        posts: StateType['posts'],
+        page?: StateType['page'],
+        totalPosts?: StateType['totalPosts']          
     }) => void
-    load: (posts: InitialStateType['posts']) => void
+    load: (posts: StateType['posts']) => void
 }
 
 type returns = [
-    InitialStateType, actionsType
+    StateType, actionsType
 ]

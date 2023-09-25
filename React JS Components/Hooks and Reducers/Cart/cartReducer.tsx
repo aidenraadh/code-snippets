@@ -1,10 +1,3 @@
-type ActionType = {
-    type: string
-    payload?: {
-        itemId?: string,
-        items?: {[itemId: string]: number}        
-    }
-}
 export const cartReducer = (state: any, action: ActionType) => {
     const lastItems: {[itemId: string]: number} = {...state.items}
     let newCart: {[key: string]: any} = {}
@@ -62,11 +55,18 @@ export const cartReducer = (state: any, action: ActionType) => {
         default: return state
     }
 }
-export type InitialStateType = {
+type ActionType = {
+    type: string
+    payload?: {
+        itemId?: string,
+        items?: {[itemId: string]: number}        
+    }
+}
+export type StateType = {
     items: {[itemId: string]: number}
     totalItems: number
 }
-export const INITIAL_STATE: InitialStateType = {
+export const INITIAL_STATE: StateType = {
     items: {},
     totalItems: 0,
 }

@@ -11,7 +11,7 @@ export const ACTIONS = {
     REFRESH: 'REFRESH',
     EMPTY: 'EMPTY'
 }
-export const errorFieldsReducer = (state: any, action: ActionType) => {
+export const errorMsgsReducer = (state: any, action: ActionType) => {
     switch (action.type) {
         case ACTIONS.REFRESH:
             const errors: StateType = {...state}
@@ -23,6 +23,9 @@ export const errorFieldsReducer = (state: any, action: ActionType) => {
                             errors[field].label && field !== '_global' ? 
                             errMsg.replace(field, errors[field].label) : errMsg
                         )
+                    }
+                    else{
+                        errors[field].msg = ''                        
                     }
                 }
             }

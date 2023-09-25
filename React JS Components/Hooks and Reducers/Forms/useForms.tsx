@@ -1,17 +1,18 @@
-import { useReducer, useMemo } from "react"
+import { useReducer, useMemo, useState, useEffect } from "react"
 import { 
     formsReducer, StateType as FormStateType, 
     fieldPayloadType, ACTIONS as FORMS_ACTIONS 
 } from "./formsReducer"
 import { 
-    errorFieldsReducer, StateType as ErrStateType, 
+    errorMsgsReducer, StateType as ErrStateType, 
     payloadType as errPayloadType, ACTIONS as ERR_ACTIONS,
     INITIAL_STATE as ERR_INIT_STATE
-} from "./errorFieldsReducer"
+} from "./errorMsgsReducer"
 
 export default function useForms(args: ArgsType): returns{
     const [forms, dispatchForms] = useReducer(formsReducer, initFormsState(args))
-    const [errFields, dispatchErrFields] = useReducer(errorFieldsReducer, initErrorsState(args))
+    const [errMsgs, dispatchErrMsgs] = useReducer(errorMsgsReducer, initErrorsState(args))
+    const [errFields, setErrFields] = useState({fields: {}, total: 0})
 
     const actions = useMemo<actionsType>(() => ({
         change: (field, value, type) => {
@@ -23,7 +24,7 @@ export default function useForms(args: ArgsType): returns{
             })
         },
         bulkChange: (forms) => {
-            const formattedForms = {}
+            const formattedForms: {[field: string]: fieldPayloadType}  = {}
             forms.forEach(form => {
                 formattedForms[form.field] = {
                     value: form.value, type: form.type
@@ -35,21 +36,26 @@ export default function useForms(args: ArgsType): returns{
             })  
         },
         refreshErr: (errors) => {
-            dispatchErrFields({
+            dispatchErrMsgs({
                 type: ERR_ACTIONS.REFRESH, payload: errors
             })
         },
-        emptyErr: () => {
-            dispatchErrFields({type: ERR_ACTIONS.EMPTY})            
+        clearErr: () => {
+            dispatchErrMsgs({type: ERR_ACTIONS.EMPTY})            
         }
-    }), [dispatchForms, dispatchErrFields])
+    }), [dispatchForms, dispatchErrMsgs])
+
+    useEffect(() => {
+        setErrFields(generateErrFields(errMsgs))
+    }, [errMsgs])
+    
     return [
-        forms, errFields, actions
+        forms, actions, errFields
     ]
 }
 
 const initFormsState = (args: ArgsType) => {
-    const forms = {}
+    const forms: FormStateType = {}
     for (const field in args) {
         forms[field] = args[field].value
     }
@@ -66,7 +72,16 @@ const initErrorsState = (args: ArgsType) => {
     }
     return errors
 }
-
+const generateErrFields = (errMsgs: ErrStateType) => {
+    const errFields: ErrFieldsStateType = {fields: {}, total: 0}
+    for (const field in errMsgs) {
+        errFields.fields[field] = errMsgs[field].msg
+        if(errMsgs[field].msg){
+            errFields.total += 1
+        }
+    }
+    return errFields
+}
 interface ArgsType{
     [field: string]: {
         value: any, label?: string
@@ -85,9 +100,11 @@ type actionsType = {
 
     refreshErr: (errors: errPayloadType) => void, 
 
-    emptyErr: () => void
+    clearErr: () => void
 }
-
+type ErrFieldsStateType = {
+    fields: {[field: string]: string}, total: number
+}
 type returns = [
-    FormStateType, ErrStateType, actionsType
+    FormStateType, actionsType, ErrFieldsStateType
 ]
