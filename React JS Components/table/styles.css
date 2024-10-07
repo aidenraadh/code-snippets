@@ -1,0 +1,22 @@
+.table-container{
+    @apply w-full overflow-x-auto text-left
+}
+.table-container table {
+    @apply border-collapse border-spacing-0 w-full min-w-[10rem]
+}
+
+.table-container th, td {
+    @apply m-0 p-[1rem] text-left
+}
+
+.table-container th{
+    @apply text-dark font-medium
+}
+
+.table-container tr{
+    @apply border-t-[1px] border-t-[#9E9E9E]
+}
+
+.table-container tbody tr:last-child{
+    @apply border-b-[1px] border-b-[#9E9E9E]
+}

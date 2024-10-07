@@ -1,0 +1,107 @@
+.form-group{
+    @apply flex flex-col
+}
+.form-group label{
+    @apply text-[#282828] font-medium block mb-2
+}    
+.form-group.required label::after{
+    @apply content-['_*'];
+}
+.form-group.required label::after{
+    @apply text-[#BB032A]
+}  
+.form-group .form-control{
+    @apply border-2 border-[#EAECF0] transition-colors w-full inline-block
+} 
+.form-group .desc{
+    @apply text-[0.86em] mt-1 inline-block text-[#757575]
+}
+.form-group .err-msg{
+    @apply text-[#BB032A] text-[0.86em] inline-block mt-1
+}
+
+.form-group .react-select-style > div{
+    @apply border-2 border-[#F3F3F3] transition-colors
+}
+
+.form-group .react-select-style > div:focus{
+    @apply border-[#1954A1]
+}  
+
+.form-group .form-control:focus{
+    @apply border-[#1954A1]
+}     
+
+.forms-grid{
+    @apply grid gap-4
+}
+.forms-grid.col-2{
+    @apply grid-cols-2
+}    
+.forms-grid.col-3{
+    @apply grid-cols-3 tablet-below:grid-cols-2
+}       
+
+
+.multi-choice{
+    @apply flex-ct-y inline-flex cursor-pointer font-medium
+}
+
+.multi-choice input{
+    @apply absolute opacity-0 cursor-pointer h-[1px] w-[1px]
+}
+
+.multi-choice .choice-name{
+    @apply pl-[0.4em] order-2 font-normal
+}
+
+.multi-choice .checkmark{
+    @apply flex-ct-all inline-flex order-1 h-[1.34em] w-[1.34em]
+}
+
+.multi-choice.checkbox .checkmark{
+    @apply rounded-[0.36em]
+}
+
+.multi-choice.radio .checkmark{
+    @apply rounded-full
+}
+
+.multi-choice .checkmark{
+    @apply border-[2px] border-[#D1D3E0] transition-colors
+}
+
+.multi-choice input:checked ~ .checkmark{
+    @apply border-[#1954A1]
+}
+
+.multi-choice .checkmark > span{
+    @apply opacity-0 transition-opacity
+}
+
+.multi-choice.checkbox .checkmark > span{
+    @apply inline-block w-[0.67em] h-[0.33em] border-l-[0.134em] border-b-[0.134em]
+}
+.multi-choice.checkbox .checkmark > span{
+    transform: rotate(-45deg) translate(0.06em, -0.04em)
+}
+
+.multi-choice.checkbox .checkmark > span{
+    @apply border-l-[#1954A1] border-b-[#1954A1]
+}
+
+.multi-choice.radio .checkmark > span{
+    @apply inline-block rounded-full w-[0.5em] h-[0.5em]
+}
+
+.multi-choice.radio .checkmark > span{
+    @apply bg-[#1954A1]
+}
+
+.multi-choice input:checked ~ .checkmark > span{
+    @apply opacity-100
+} 
+
+.form-group.color-picker .form-control{
+    @apply p-0 border-0 rounded-none h-[2.73em] px-[0.18em] w-[3.6em]
+}  
