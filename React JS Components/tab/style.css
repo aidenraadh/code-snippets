@@ -1,0 +1,31 @@
+.tab .tab-links{
+    @apply flex text-center mb-4
+}
+.tab .tab-link{
+    @apply w-full text-th-base font-medium border-b-2 transition-colors
+}    
+
+.tab .tab-link > button{
+    @apply w-full block pb-3
+}
+.tab .tab-link.active{
+    @apply text-[#2B4A8B] border-b-[#2B4A8B]
+}
+.tab .tab-link > a{
+    @apply block w-full
+}  
+.tab .tab-panels{
+    @apply relative flex
+}      
+.tab .tab-panel{
+    @apply 
+        absolute overflow-visible
+        w-[0.1px] h-[0.1px] invisible
+        opacity-0 transition-opacity z-0
+}     
+.tab .tab-panel.active{
+    @apply opacity-100
+}      
+.tab .tab-panel.shown{
+    @apply relative w-full h-fit z-[1] visible
+}     
