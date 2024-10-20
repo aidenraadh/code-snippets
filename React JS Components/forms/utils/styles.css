@@ -105,3 +105,23 @@
 .form-group.color-picker .form-control{
     @apply p-0 border-0 rounded-none h-[2.73em] px-[0.18em] w-[3.6em]
 }  
+
+.form-group.switch{
+    @apply relative
+}
+
+.form-group.switch .form-control {
+    @apply absolute top-0 left-0 opacity-0 cursor-pointer h-0 w-0
+}
+
+.form-group.switch .checkmark-wrapper{
+    @apply bg-slate-400 transition-colors rounded-full flex items-center p-[0.3em]
+}
+
+.form-group.switch .checkmark{
+    @apply rounded-full w-[1.4em] h-[1.4em] transition-transform inline-block bg-white origin-left
+}
+
+.form-group.switch .form-control:checked ~ .checkmark-wrapper{
+    @apply bg-sky-400
+}
