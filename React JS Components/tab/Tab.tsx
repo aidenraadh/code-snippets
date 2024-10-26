@@ -2,11 +2,12 @@
 
 import { useMemo, useState } from "react"
 
-interface TabType{
-    children: any
-    className?: string
-    [attrName: string]: any
-}
+/**
+ * A Tab
+ * @param children - List of TabPanel component(s)
+ * @param className - The classes of the component (optional)
+ * @returns JSX element
+ */
 
 export function Tab({children, className, ...rest}: TabType){
     const [lastShownPanel, setLastShownPanel] = useState<number>(0)
@@ -62,13 +63,14 @@ export function Tab({children, className, ...rest}: TabType){
     )
 }
 
-interface TabPanelType{
-    id: string
-    title: string
-    children: any
-    className?: string
-    [attrName: string]: any
-}
+/**
+ * The tab panel
+ * @param id - The ID of the tab panel
+ * @param title - The title of the tab panel
+ * @param children - The content of the tab panel (optional)
+ * @param className - The classes of the component (optional)
+ * @returns JSX element
+ */
 
 export function TabPanel({id, title, children, className, ...rest}: TabPanelType){
     return (
@@ -80,4 +82,20 @@ export function TabPanel({id, title, children, className, ...rest}: TabPanelType
 
 TabPanel.defaultProps = {
     identifier: 'tabpanel'
+}
+
+interface TabType{
+    children: any
+    className?: string
+    /** Other HTML attributes */
+    [attrName: string]: any
+}
+
+interface TabPanelType{
+    id: string
+    title: string
+    children?: any
+    className?: string
+    /** Other HTML attributes */
+    [attrName: string]: any
 }
