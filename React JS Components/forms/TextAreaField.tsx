@@ -3,9 +3,19 @@ import { BaseFormProps } from "./utils/types";
 import { getFieldErrMsg } from "./utils/form-error";
 import './utils/styles.css'
 
-interface TextAreaFieldProps extends BaseFormProps {
-    handleEnter?: (e: any) => void
-}
+/**
+ * Text form
+ * 
+ * @param fieldName - The form's name
+ * @param control - useForm's Control object
+ * @param label - The form's label
+ * @param desc - The form's description
+ * @param handleEnter - A function to execute when enter key is pressed
+ * @param className - The form's classes
+ * @param errorCfg.errLabel - If set, the name of the field in the error message will be replace with this
+ * @param errorCfg.hideErrMsg - Whether or not to hide the error message
+ * @returns JSX element
+ */
 
 export default function TextAreaField({
     fieldName, control, handleEnter,
@@ -41,4 +51,9 @@ export default function TextAreaField({
             </span>
         </span>
     )
+}
+
+interface TextAreaFieldProps extends BaseFormProps {
+    /* A function to execute when enter key is pressedA function to execute when enter key is pressed */
+    handleEnter?: (e: any) => void
 }

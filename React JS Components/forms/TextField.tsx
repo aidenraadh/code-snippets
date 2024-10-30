@@ -3,10 +3,20 @@ import { BaseFormProps } from "./utils/types";
 import { getFieldErrMsg } from "./utils/form-error";
 import './utils/styles.css'
 
-interface TextFieldProps extends BaseFormProps {
-    isNumeric?: boolean,
-    handleEnter?: (e: any) => void
-}
+/**
+ * Text form
+ * 
+ * @param fieldName - The form's name
+ * @param control - useForm's Control object
+ * @param label - The form's label
+ * @param desc - The form's description
+ * @param isNumeric - Set the user's input to numeric. Also remove all non digits character when the blur event of the form is triggered
+ * @param handleEnter - A function to execute when enter key is pressed
+ * @param className - The form's classes
+ * @param errorCfg.errLabel - If set, the name of the field in the error message will be replace with this
+ * @param errorCfg.hideErrMsg - Whether or not to hide the error message
+ * @returns JSX element
+ */
 
 export default function TextField({
     fieldName, control, isNumeric, handleEnter,
@@ -50,4 +60,11 @@ export default function TextField({
             </span>
         </span>
     )
+}
+
+interface TextFieldProps extends BaseFormProps {
+    /* Set the user's input to numeric. Also remove all non digits character when the blur event of the form is triggered */
+    isNumeric?: boolean,
+    /* A function to execute when enter key is pressedA function to execute when enter key is pressed */
+    handleEnter?: (e: any) => void
 }

@@ -87,7 +87,7 @@ TabPanel.defaultProps = {
 interface TabType{
     children: any
     className?: string
-    /** Other HTML attributes */
+    /* Other HTML attributes */
     [attrName: string]: any
 }
 
@@ -96,6 +96,6 @@ interface TabPanelType{
     title: string
     children?: any
     className?: string
-    /** Other HTML attributes */
+    /* Other HTML attributes */
     [attrName: string]: any
 }
