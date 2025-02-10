@@ -9,35 +9,26 @@ import './utils/styles.css'
 
 interface SelectFieldProps extends BaseFormProps {
     options: SingleValue<any>[],
-    setChangeSelected?: (handleSelectChange: (opt: SingleValue<any>) => void) => void;
     desc?: string
 }
 
 export default function SelectField({
     fieldName, control, options, errorCfg,
-    label, setChangeSelected, desc, className, ...rest
+    label, desc, className, ...rest
 }: SelectFieldProps){
     const reactSelectId = useMemo(() => (Date.now().toString()), [])
     const [isMounted, setIsMounted] = useState(false);    
-    const [selectedOption, setSelectedOption] = useState<SingleValue<any>>(null);
-    const {field, fieldState} = useController({name: fieldName, control,});
+    const {field, fieldState} = useController({name: fieldName, control, rules: {required: rest.required || false}});
     let classes = 'form-group' + (className ? ' '+className : '')
     classes += rest.required ? ' required' : ''   
 
     const handleSelectChange = useCallback((selected: SingleValue<any>) => {
-        setSelectedOption(selected);
         field.onChange(selected)        
-    }, [setSelectedOption, field.onChange]);
+    }, [field.onChange]);
 
 	useEffect(() => {
         setIsMounted(true)
     }, []);  
-
-    useEffect(() => {
-        if(isMounted && setChangeSelected){
-            setChangeSelected(handleSelectChange)
-        }
-    }, [isMounted, handleSelectChange, setChangeSelected])
 
     if(!isMounted){
         return null
@@ -47,7 +38,7 @@ export default function SelectField({
             {label ? <label className='form-label'>{label}</label> : ''}
             <Select {...rest}
                 id={reactSelectId} ref={field.ref}
-                value={selectedOption}
+                value={field.value}
                 onChange={handleSelectChange}
                 options={options} isClearable
                 isOptionDisabled={(option: any) => option.isDisabled}

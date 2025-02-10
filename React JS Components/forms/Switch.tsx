@@ -21,7 +21,7 @@ interface CheckboxProps{
 export default function Switch({
     fieldName, control, label, values, length, className, ...rest
 }: CheckboxProps){
-    const {field: {value, ref, onChange}} = useController({name: fieldName, control});
+    const {field: {value, ref, onChange}} = useController({name: fieldName, control, rules: {required: rest.required || false}});
     const checmarkRef = useRef<HTMLSpanElement | null>(null)
     const switchVal = useMemo(() => {
         if(!values){

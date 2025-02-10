@@ -9,38 +9,25 @@ import './utils/styles.css'
 
 interface MultiSelectFieldProps extends BaseFormProps {
     options: {value: any, label: string}[],
-    setChangeSelected?: (handleSelectChange: (opt: MultiValue<any>) => void) => void;   
 }
 
 export default function MultiSelectField({
     fieldName, control, options, errorCfg,
-    label, desc, setChangeSelected, className, ...rest
+    label, desc, className, ...rest
 }: MultiSelectFieldProps) {
     const reactSelectId = useMemo(() => (Date.now().toString()), [])
     const [isMounted, setIsMounted] = useState(false);    
-    const [selectedOption, setSelectedOption] = useState<MultiValue<any>>([]);
-    const {field, fieldState} = useController({name: fieldName, control,});
+    const {field, fieldState} = useController({name: fieldName, control, rules: {required: rest.required || false}});
     let classes = 'form-group' + (className ? ' '+className : '')
     classes += rest.required ? ' required' : ''   
 
     const handleSelectChange = useCallback((selected: MultiValue<any>) => {
-        setSelectedOption(state => {
-            let newState = [...state]
-            newState.push(selected)
-            field.onChange(newState)
-            return newState
-        })
-    }, [setSelectedOption, field.onChange]);
+        field.onChange(selected)
+    }, [field.onChange]);
 
 	useEffect(() => {
         setIsMounted(true)
     }, []);  
-
-    useEffect(() => {
-        if(isMounted && setChangeSelected){
-            setChangeSelected(handleSelectChange)
-        }
-    }, [isMounted, handleSelectChange, setChangeSelected])
 
     if(!isMounted){
         return null
@@ -51,7 +38,7 @@ export default function MultiSelectField({
             <Select {...rest}
                 id={reactSelectId}
                 ref={field.ref} options={options}
-                value={selectedOption}
+                value={field.value}
                 onChange={handleSelectChange}
                 isOptionDisabled={(option: any) => option.isDisabled}
                 isClearable

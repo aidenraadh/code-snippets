@@ -11,7 +11,7 @@ interface ColorPickerProps extends BaseFormProps {
 export default function ColorPicker({
     fieldName, control, label, desc, className, errorCfg, ...rest
 }: ColorPickerProps){
-    const {field, fieldState} = useController({name: fieldName, control});
+    const {field, fieldState} = useController({name: fieldName, control, rules: {required: rest.required || false}});
     let classes = 'form-group color-picker' + (className ? ' '+className : '')
     classes += rest.required ? ' required' : ''
     return (

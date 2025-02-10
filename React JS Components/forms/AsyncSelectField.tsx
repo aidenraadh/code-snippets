@@ -10,34 +10,25 @@ import './utils/styles.css'
 
 interface AsyncSelectFieldProps extends BaseFormProps {
     loadOptions: (inputValue: string) => Promise<SingleValue<any>[]>,
-    setChangeSelected?: (handleSelectChange: (opt: SingleValue<any>) => void) => void;
 }
 
 export default function AsyncSelectField({
-    fieldName, control, loadOptions, errorCfg, setChangeSelected,
+    fieldName, control, loadOptions, errorCfg,
     label, desc, className, ...rest
 }: AsyncSelectFieldProps){
     const reactSelectId = useMemo(() => (Date.now().toString()), [])
     const [isMounted, setIsMounted] = useState(false);    
-    const [selectedOption, setSelectedOption] = useState<SingleValue<any>>(null);
-    const {field, fieldState} = useController({name: fieldName, control,});
+    const {field, fieldState} = useController({name: fieldName, control, rules: {required: rest.required || false}});
     let classes = 'form-group' + (className ? ' '+className : '')
     classes += rest.required ? ' required' : ''   
 
     const handleSelectChange = useCallback((selected: SingleValue<any>) => {
-        setSelectedOption(selected);
         field.onChange(selected)        
-    }, [setSelectedOption, field.onChange]);
+    }, [field.onChange]);
 
 	useEffect(() => {
         setIsMounted(true)
     }, []);  
-
-    useEffect(() => {
-        if(isMounted && setChangeSelected){
-            setChangeSelected(handleSelectChange)
-        }
-    }, [isMounted, handleSelectChange, setChangeSelected])
 
     if(!isMounted){
         return null
@@ -48,7 +39,7 @@ export default function AsyncSelectField({
             <AsyncSelect {...rest}
                 id={reactSelectId} ref={field.ref} 
                 loadOptions={loadOptions} defaultOptions
-                onChange={handleSelectChange} value={selectedOption}
+                onChange={handleSelectChange} value={field.value}
                 isOptionDisabled={(option: any) => option.isDisabled}
                 isClearable
                 styles={{

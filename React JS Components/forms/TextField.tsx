@@ -22,7 +22,7 @@ export default function TextField({
     fieldName, control, isNumeric, handleEnter,
     label, desc, className, errorCfg, ...rest
 }: TextFieldProps){
-    const {field, fieldState} = useController({name: fieldName, control});
+    const {field, fieldState} = useController({name: fieldName, control, rules: {required: rest.required || false}});
     let classes = 'form-group' + (className ? ' '+className : '')
     classes += rest.required ? ' required' : ''
     if(handleEnter){

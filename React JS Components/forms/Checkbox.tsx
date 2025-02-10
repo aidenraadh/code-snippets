@@ -16,7 +16,7 @@ export default function Checkbox({
     fieldName, control, fieldArr, cbVal, label, className, ...rest
 }: CheckboxProps){
     let classes = 'multi-choice checkbox' + (className ? ' '+className : '')
-    const {field: {value, ref}} = useController({name: fieldName, control});
+    const {field: {value, ref}} = useController({name: fieldName, control, rules: {required: rest.required || false}});
 
     const toggleValue = useCallback((oldVal: any[]) => {
         if(oldVal && oldVal.includes(cbVal)){
